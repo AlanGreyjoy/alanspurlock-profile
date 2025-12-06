@@ -20,14 +20,7 @@ const config: StorybookConfig = {
     return {
       ...config,
       css: {
-        postcss: {
-          plugins: [
-            require('tailwindcss')({
-              config: join(__dirname, '../tailwind.config.js'),
-            }),
-            require('autoprefixer'),
-          ],
-        },
+        postcss: join(__dirname, '../postcss.config.js'),
       },
     };
   },
