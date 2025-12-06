@@ -21,10 +21,7 @@ const IntroductionComponent = () => {
           font-weight: 900;
           line-height: 1.2;
           margin-bottom: 1rem;
-          background: linear-gradient(135deg, #ff0055 0%, #00d1b2 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #111827;
         }
 
         .sb-section-title p {

@@ -32,13 +32,12 @@ export function SpurlockUIPage() {
               </a>
             </div>
 
-            <div className="h-96 bg-gradient-to-br from-[#00d1b2]/10 to-[#ff0055]/10 rounded-2xl mb-12 flex items-center justify-center border border-gray-100">
-              <div className="text-center">
-                <span className="text-8xl mb-4 block">🎨</span>
-                <p className="text-gray-500 font-medium">
-                  Beautiful, Accessible Components
-                </p>
-              </div>
+            <div className="h-96 bg-gradient-to-br from-[#00d1b2]/10 to-[#ff0055]/10 rounded-2xl mb-12 overflow-hidden border border-gray-100">
+              <img
+                src="/images/storybook-ss.png"
+                alt="Spurlock UI Storybook Documentation"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
           </div>
 

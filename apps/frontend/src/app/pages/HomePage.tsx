@@ -183,8 +183,8 @@ export function HomePage() {
           <div className="space-y-8">
             <Link to="/spurlock-ui" className="block group max-w-5xl">
               <HorizontalCard
-                imageSrc="/images/spurlock-ui-placeholder.png"
-                imageAlt="Spurlock UI component library"
+                imageSrc="/images/storybook-ss.png"
+                imageAlt="Spurlock UI component library in Storybook"
                 title="Spurlock UI"
                 subtitle="Modern React Component Library"
                 description="A comprehensive React component library built with accessibility in mind. Built on Radix UI primitives and Tailwind CSS, documented in Storybook. Features composable components, TypeScript support, and a flexible theming system for building beautiful web applications."
