@@ -19,9 +19,17 @@ export function HotasHelperPage() {
               <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 tracking-tight">
                 HotasHelper
               </h1>
-              <p className="text-2xl text-gray-600 font-medium">
+              <p className="text-2xl text-gray-600 font-medium mb-6">
                 Visual HOTAS Control Binding Mapper
               </p>
+              <a
+                href="https://hotashelper.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 bg-[#00d1b2] text-white font-bold text-lg rounded-lg shadow-lg hover:bg-[#00b89f] hover:shadow-xl transition-all transform hover:-translate-y-1"
+              >
+                Visit Live Site →
+              </a>
             </div>
 
             <div className="h-96 bg-gradient-to-br from-[#00d1b2]/10 to-[#ff0055]/10 rounded-2xl mb-12 flex items-center justify-center border border-gray-100">
@@ -46,7 +54,12 @@ export function HotasHelperPage() {
                 Throttle-And-Stick) control bindings. By combining the power of
                 Three.js for 3D visualization and React Flow for node-based
                 mapping, it creates an intuitive interface for managing complex
-                control schemes.
+                control schemes. The application features a unique hybrid
+                rendering system where complete 3D and 2D visualizations
+                communicate seamlessly, with Zustand managing state and TanStack
+                Query handling data synchronization. Authentication is powered
+                by Supabase with support for Google, Discord, and email login,
+                with all data securely stored in PostgreSQL.
               </Text>
             </div>
 
@@ -102,6 +115,68 @@ export function HotasHelperPage() {
                     setups.
                   </p>
                 </div>
+
+                <div className="p-6 bg-white border border-gray-100 rounded-xl">
+                  <div className="text-3xl mb-4">🔐</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    Secure Authentication
+                  </h3>
+                  <p className="text-gray-600">
+                    Supabase-powered authentication with support for Google,
+                    Discord, and email login. All your configurations are
+                    securely stored in PostgreSQL.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-white border border-gray-100 rounded-xl">
+                  <div className="text-3xl mb-4">🎨</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    Hybrid 3D/2D Rendering
+                  </h3>
+                  <p className="text-gray-600">
+                    Seamlessly integrated Three.js and React Flow working in
+                    tandem, with real-time state synchronization via Zustand and
+                    TanStack Query.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 pt-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Technical Highlights
+              </h2>
+              <div className="space-y-6">
+                <div className="p-6 bg-white border border-gray-100 rounded-xl">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    Advanced Occlusion Rendering
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    The 3D visualization includes sophisticated occlusion
+                    handling. When connection lines pass through solid objects
+                    (like parts of the HOTAS controller), the hidden portions
+                    are automatically rendered as dashed lines. This provides
+                    clear visual feedback about spatial relationships while
+                    maintaining depth perception, making it easy to understand
+                    complex binding paths even in dense 3D environments.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-white border border-gray-100 rounded-xl">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    3D/2D Integration
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    The application features complete 3D and 2D views that
+                    communicate bidirectionally. Three.js handles the immersive
+                    3D hardware visualization, while React Flow provides an
+                    intuitive node-based flow diagram for logical connections.
+                    Both views are synchronized in real-time through Zustand's
+                    state management, allowing you to interact with either view
+                    and see instant updates in both. TanStack Query ensures data
+                    consistency and handles server synchronization.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -117,6 +192,10 @@ export function HotasHelperPage() {
                   'React Flow',
                   'TypeScript',
                   'Tailwind CSS',
+                  'Zustand',
+                  'TanStack Query',
+                  'Supabase',
+                  'PostgreSQL',
                 ].map((tech) => (
                   <span
                     key={tech}

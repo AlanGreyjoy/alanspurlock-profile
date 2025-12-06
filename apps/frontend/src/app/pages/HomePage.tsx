@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Container } from '@alanspurlock-profile/spurlock-ui';
+import { Container, HorizontalCard } from '@alanspurlock-profile/spurlock-ui';
 import { useState, useEffect } from 'react';
-import { GlassCard } from '../../components/ui/GlassCard'; // Assuming we still have this or similar for cards, otherwise I'll use standard div
-import { PERSONAL_INFO, ROLES, EXPERIENCE, STATS } from '../constants'; // Adjust path if needed
+import { PERSONAL_INFO, ROLES, STATS } from '../constants'; // Adjust path if needed
 
 export function HomePage() {
   const [text, setText] = useState('');
@@ -11,40 +10,40 @@ export function HomePage() {
   const [delta, setDelta] = useState(150);
 
   useEffect(() => {
-    let ticker = setInterval(() => {
+    const tick = () => {
+      const i = roleIndex % ROLES.length;
+      const fullText = ROLES[i];
+      const updatedText = isDeleting
+        ? fullText.substring(0, text.length - 1)
+        : fullText.substring(0, text.length + 1);
+
+      setText(updatedText);
+
+      if (isDeleting) {
+        setDelta((prevDelta) => prevDelta / 2);
+      }
+
+      if (!isDeleting && updatedText === fullText) {
+        setIsDeleting(true);
+        setDelta(2000); // Wait before deleting
+      } else if (isDeleting && updatedText === '') {
+        setIsDeleting(false);
+        setRoleIndex(roleIndex + 1);
+        setDelta(150); // Reset typing speed
+      } else {
+        if (isDeleting) setDelta(50);
+        else setDelta(150);
+      }
+    };
+
+    const ticker = setInterval(() => {
       tick();
     }, delta);
 
     return () => {
       clearInterval(ticker);
     };
-  }, [text, delta]);
-
-  const tick = () => {
-    let i = roleIndex % ROLES.length;
-    let fullText = ROLES[i];
-    let updatedText = isDeleting
-      ? fullText.substring(0, text.length - 1)
-      : fullText.substring(0, text.length + 1);
-
-    setText(updatedText);
-
-    if (isDeleting) {
-      setDelta((prevDelta) => prevDelta / 2);
-    }
-
-    if (!isDeleting && updatedText === fullText) {
-      setIsDeleting(true);
-      setDelta(2000); // Wait before deleting
-    } else if (isDeleting && updatedText === '') {
-      setIsDeleting(false);
-      setRoleIndex(roleIndex + 1);
-      setDelta(150); // Reset typing speed
-    } else {
-      if (isDeleting) setDelta(50);
-      else setDelta(150);
-    }
-  };
+  }, [text, delta, isDeleting, roleIndex]);
 
   return (
     <div className="w-full pt-12 md:pt-24 pb-20">
@@ -52,7 +51,7 @@ export function HomePage() {
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto text-left mb-32">
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-[1.1] mb-8 tracking-tight">
-            Hi, I’m {PERSONAL_INFO.name}, <br />a{' '}
+            Hi, I'm {PERSONAL_INFO.name}, <br />a{' '}
             <span className="text-[#00d1b2]">{text}</span>
             <span className="inline-block w-1 md:w-2 h-10 md:h-16 bg-[#00d1b2] ml-2 animate-pulse align-middle"></span>
           </h1>
@@ -104,7 +103,7 @@ export function HomePage() {
         <section className="max-w-6xl mx-auto">
           <div className="flex justify-between items-end mb-16">
             <h2 className="text-4xl md:text-6xl font-black text-gray-900">
-              Featured Project
+              Featured Projects
             </h2>
             <Link
               to="/experience"
@@ -114,41 +113,35 @@ export function HomePage() {
             </Link>
           </div>
 
-          <div className="max-w-3xl mx-auto">
-            <Link
-              to="/hotas-helper"
-              className="block p-12 border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all bg-white group hover:-translate-y-2"
-            >
-              <div className="h-64 bg-gradient-to-br from-[#00d1b2]/10 to-[#ff0055]/10 rounded-xl mb-8 flex items-center justify-center">
-                <span className="text-8xl group-hover:scale-110 transition-transform">
-                  🕹️
-                </span>
-              </div>
-              <h3 className="text-4xl font-bold text-gray-900 mb-4 group-hover:text-[#ff0055] transition-colors">
-                HotasHelper
-              </h3>
-              <p className="text-gray-500 mb-4 font-medium text-xl">
-                Visual HOTAS Control Binding Mapper
-              </p>
-              <p className="text-gray-600 leading-relaxed text-lg mb-6">
-                A React/Vite application that uses Three.js and React Flow to
-                visually map HOTAS control bindings for games like Star Citizen,
-                Star Wars Squadrons, and more. An intuitive 3D interface that
-                makes complex control mapping feel natural.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {['React', 'Vite', 'Three.js', 'React Flow'].map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-6 text-[#ff0055] font-bold text-lg group-hover:translate-x-2 transition-transform inline-block">
-                Learn More →
-              </div>
+          <div className="space-y-8">
+            <Link to="/spurlock-ui" className="block group max-w-5xl">
+              <HorizontalCard
+                imageSrc="/images/spurlock-ui-placeholder.png"
+                imageAlt="Spurlock UI component library"
+                title="Spurlock UI"
+                subtitle="Modern React Component Library"
+                description="A comprehensive React component library built with accessibility in mind. Built on Radix UI primitives and Tailwind CSS, documented in Storybook. Features composable components, TypeScript support, and a flexible theming system for building beautiful web applications."
+                tags={[
+                  'React',
+                  'TypeScript',
+                  'Radix UI',
+                  'Tailwind CSS',
+                  'Storybook',
+                ]}
+                footer="Learn More →"
+              />
+            </Link>
+
+            <Link to="/hotas-helper" className="block group max-w-5xl">
+              <HorizontalCard
+                imageSrc="/images/HotashelperReact-12-06-2025_12_47_AM.png"
+                imageAlt="HotasHelper application screenshot"
+                title="HotasHelper"
+                subtitle="Visual HOTAS Control Binding Mapper"
+                description="A React/Vite application that uses Three.js and React Flow to visually map HOTAS control bindings for games like Star Citizen, Star Wars Squadrons, and more. An intuitive 3D interface that makes complex control mapping feel natural."
+                tags={['React', 'Vite', 'Three.js', 'React Flow']}
+                footer="Learn More →"
+              />
             </Link>
           </div>
         </section>

@@ -6,7 +6,22 @@ import {
   Heading,
   Text,
   Divider,
+  Timeline,
+  TimelineItem,
+  Pills,
 } from '@alanspurlock-profile/spurlock-ui';
+import {
+  Briefcase,
+  Phone,
+  Building,
+  Rocket,
+  Headphones,
+  Zap,
+  Anchor,
+  Gamepad2,
+  Rabbit,
+} from 'lucide-react';
+import type { ReactNode } from 'react';
 
 interface Experience {
   company: string;
@@ -16,6 +31,7 @@ interface Experience {
   description?: string;
   highlights: string[];
   technologies?: string[];
+  icon?: ReactNode;
 }
 
 const experiences: Experience[] = [
@@ -25,19 +41,34 @@ const experiences: Experience[] = [
     period: 'June 2024 - Present',
     location: 'Westlake, Texas',
     highlights: [],
+    icon: <Briefcase />,
   },
   {
     company: 'Sipharmony, LLC',
     role: 'Founder & Engineer',
     period: 'January 2022 - Present',
-    description: 'Custom platform - written on top of Asterisk. Single handedly wrote a complete UCaaS/CPaaS platform.',
+    description:
+      'Custom platform - written on top of Asterisk. Single handedly wrote a complete UCaaS/CPaaS platform.',
     highlights: [
       'Full scale, multi-hosted, and geo location failover PBX system',
       'Complete with SMS/MMS, Public facing API, Skill Based Routing',
       'AI services, AI assisted power dialer',
       'All the bells and whistles of other leading providers',
     ],
-    technologies: ['React/Vite', 'Sip.js', 'MongoDB', 'Supabase', 'Asterisk 20', 'RTP Engine', 'Coturn', 'Kamailio', 'Python', 'Node.js', 'Docker'],
+    technologies: [
+      'React/Vite',
+      'Sip.js',
+      'MongoDB',
+      'Supabase',
+      'Asterisk 20',
+      'RTP Engine',
+      'Coturn',
+      'Kamailio',
+      'Python',
+      'Node.js',
+      'Docker',
+    ],
+    icon: <Phone />,
   },
   {
     company: 'CBRE',
@@ -52,7 +83,15 @@ const experiences: Experience[] = [
       'Implemented Husky pre-commit and pre-push scripts for CI/CD',
       'Managed Azure access, repositories, and permissions',
     ],
-    technologies: ['JavaScript', 'Python', 'Azure DevOps', 'Node.js', 'Express.js', 'Stoplight.io'],
+    technologies: [
+      'JavaScript',
+      'Python',
+      'Azure DevOps',
+      'Node.js',
+      'Express.js',
+      'Stoplight.io',
+    ],
+    icon: <Building />,
   },
   {
     company: 'GalaxE.Solutions',
@@ -64,7 +103,16 @@ const experiences: Experience[] = [
       'Implemented CI/CD pipelines using GitHub Actions and Docker',
       'Led offshore teams transitioning SpringBoot/DB2 to Node.js/Postgres',
     ],
-    technologies: ['Node.js', 'Express', 'React', 'GitHub Actions', 'GitLab', 'Azure Pipelines', 'Docker'],
+    technologies: [
+      'Node.js',
+      'Express',
+      'React',
+      'GitHub Actions',
+      'GitLab',
+      'Azure Pipelines',
+      'Docker',
+    ],
+    icon: <Rocket />,
   },
   {
     company: 'Integritek',
@@ -77,7 +125,15 @@ const experiences: Experience[] = [
       'Integrated VoIP solutions with CRM systems',
       'Developed large-scale Node.js servers interacting with 350+ FreePBX installs',
     ],
-    technologies: ['Node.js', 'React.js', 'Next.js', 'SIP', 'FreePBX', 'pfSense'],
+    technologies: [
+      'Node.js',
+      'React.js',
+      'Next.js',
+      'SIP',
+      'FreePBX',
+      'pfSense',
+    ],
+    icon: <Headphones />,
   },
   {
     company: 'PanelSense, LLC',
@@ -91,7 +147,14 @@ const experiences: Experience[] = [
       'Drove a 15% increase in revenue through technology strategy',
       'Reduced downtime by 25% with cloud technologies and automation',
     ],
-    technologies: ['GitHub Actions', 'ESLint', 'SonarQube', 'Checkmarx', 'CyberArk'],
+    technologies: [
+      'GitHub Actions',
+      'ESLint',
+      'SonarQube',
+      'Checkmarx',
+      'CyberArk',
+    ],
+    icon: <Zap />,
   },
   {
     company: 'SeaDek Marine Products',
@@ -104,6 +167,7 @@ const experiences: Experience[] = [
       'Automated manufacturing processes with AutoInput Bot and SigmaBot',
     ],
     technologies: ['Laravel', 'C#', 'Winforms', 'WPF', 'Rhino3D', 'SigmaNest'],
+    icon: <Anchor />,
   },
   {
     company: 'SkillCheck Games',
@@ -116,15 +180,18 @@ const experiences: Experience[] = [
       'Designed an authoritative MMORPG server using TCP I/O',
     ],
     technologies: ['Unity3D', 'C#', 'Node.js', 'Postgres', 'TCP/IP'],
+    icon: <Gamepad2 />,
   },
   {
     company: 'The Dead Rabbits',
     role: 'Founder',
     period: 'January 2008 - January 2015',
     location: 'Dallas/Fort Worth Area',
-    description: 'Custom software solutions and game dev studio. Consulted and wrote Unity3D C# scripts for various gaming companies and projects.',
+    description:
+      'Custom software solutions and game dev studio. Consulted and wrote Unity3D C# scripts for various gaming companies and projects.',
     highlights: [],
     technologies: ['Unity3D', 'C#'],
+    icon: <Rabbit />,
   },
 ];
 
@@ -143,112 +210,163 @@ const education = [
 
 export function ExperiencePage() {
   return (
-    <div>
-      {/* Header */}
-      <section className="py-12 md:py-16">
-        <Container size="lg">
-          <Heading as="h1" size="2xl" className="mb-4">
+    <div className="min-h-screen">
+      {/* Header with gradient background */}
+      <section className="py-8 md:py-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/5 via-transparent to-[var(--color-accent)]/5" />
+        <Container size="lg" className="relative z-10">
+          <Heading
+            as="h1"
+            size="2xl"
+            className="mb-6 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent"
+          >
             Experience
           </Heading>
-          <Text size="lg" variant="muted" className="max-w-2xl">
-            Over 15 years of building software, from game engines to enterprise 
+          <Text size="lg" variant="muted" className="max-w-2xl leading-relaxed">
+            Over 17 years of building software, from game engines to enterprise
             platforms. Here's my journey through tech.
           </Text>
         </Container>
       </section>
 
-      <Divider variant="soft" spacing="sm" />
-
       {/* Timeline */}
       <Section>
         <Container size="lg">
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-[var(--color-border)]" />
-
-            <div className="space-y-8">
-              {experiences.map((exp, index) => (
-                <div key={`${exp.company}-${index}`} className="relative pl-8 md:pl-20">
-                  {/* Timeline dot */}
-                  <div className="absolute left-0 md:left-8 top-2 w-2 h-2 rounded-full bg-[var(--color-primary)] -translate-x-1/2" />
-                  
-                  <Card variant="default" padding="lg">
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
-                      <div>
-                        <Heading as="h3" size="lg">
-                          {exp.role}
-                        </Heading>
-                        <Text variant="muted" className="flex items-center gap-2">
-                          <span className="font-medium text-[var(--color-text)]">{exp.company}</span>
-                          {exp.location && (
-                            <>
-                              <span>•</span>
-                              <span>{exp.location}</span>
-                            </>
-                          )}
-                        </Text>
+          <Timeline>
+            {experiences.map((exp, index) => (
+              <TimelineItem
+                key={`${exp.company}-${index}`}
+                date={exp.period}
+                icon={exp.icon}
+              >
+                <Card
+                  variant="elevated"
+                  padding="lg"
+                  className="group-hover:shadow-2xl group-hover:border-[var(--color-primary)]/30 
+                             transition-all duration-300 group-hover:-translate-y-1"
+                >
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-6">
+                    <div className="flex-1">
+                      <Heading
+                        as="h3"
+                        size="lg"
+                        className="mb-2 group-hover:text-[var(--color-primary)] transition-colors"
+                      >
+                        {exp.role}
+                      </Heading>
+                      <div className="flex flex-wrap items-center gap-2 text-[var(--color-text-muted)]">
+                        <span className="font-semibold text-[var(--color-text)]">
+                          {exp.company}
+                        </span>
+                        {exp.location && (
+                          <>
+                            <span className="text-[var(--color-border)]">
+                              •
+                            </span>
+                            <span className="text-sm">{exp.location}</span>
+                          </>
+                        )}
                       </div>
-                      <Badge variant="outline" size="sm">
-                        {exp.period}
-                      </Badge>
                     </div>
+                  </div>
 
-                    {exp.description && (
-                      <Text variant="muted" className="mb-4">
-                        {exp.description}
-                      </Text>
-                    )}
+                  {exp.description && (
+                    <Text
+                      variant="muted"
+                      className="mb-6 leading-relaxed text-base"
+                    >
+                      {exp.description}
+                    </Text>
+                  )}
 
-                    {exp.highlights.length > 0 && (
-                      <ul className="space-y-2 mb-4">
-                        {exp.highlights.map((highlight, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <span className="text-[var(--color-primary)] mt-1">•</span>
-                            <Text size="sm" variant="muted">
-                              {highlight}
-                            </Text>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                  {exp.highlights.length > 0 && (
+                    <ul className="space-y-3 mb-6">
+                      {exp.highlights.map((highlight, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 group/item"
+                        >
+                          <span className="text-[var(--color-primary)] mt-1.5 text-lg font-bold group-hover/item:scale-125 transition-transform">
+                            •
+                          </span>
+                          <Text
+                            size="sm"
+                            variant="muted"
+                            className="leading-relaxed"
+                          >
+                            {highlight}
+                          </Text>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
-                    {exp.technologies && exp.technologies.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pt-4 border-t border-[var(--color-border-soft)]">
-                        {exp.technologies.map((tech) => (
-                          <Badge key={tech} variant="default" size="sm">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
+                  {exp.technologies && exp.technologies.length > 0 && (
+                    <div className="pt-6 border-t border-[var(--color-border-soft)]">
+                      <Pills label="Technologies" items={exp.technologies} />
+                    </div>
+                  )}
+                </Card>
+              </TimelineItem>
+            ))}
+          </Timeline>
         </Container>
       </Section>
 
       <Divider variant="soft" />
 
-      {/* Education */}
-      <Section title="Education">
+      {/* Education with enhanced design */}
+      <Section>
         <Container size="lg">
+          <div className="mb-10">
+            <Heading as="h2" size="xl" className="mb-3">
+              Education
+            </Heading>
+            <Text variant="muted" className="text-base">
+              Academic foundation in software development and design
+            </Text>
+          </div>
           <div className="grid md:grid-cols-2 gap-6">
             {education.map((edu, index) => (
-              <Card key={index} variant="elevated" padding="lg">
-                <Heading as="h3" size="md" className="mb-2">
-                  {edu.degree}
-                </Heading>
-                <Text variant="muted">{edu.school}</Text>
-                <Text size="sm" variant="soft" className="mt-2">
-                  {edu.period}
-                </Text>
+              <Card
+                key={index}
+                variant="elevated"
+                padding="lg"
+                className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 hover:border-[var(--color-accent)]/30"
+              >
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-primary)]/20 
+                                flex items-center justify-center shrink-0"
+                  >
+                    <span
+                      className="text-2xl"
+                      role="img"
+                      aria-label="graduation"
+                    >
+                      🎓
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <Heading as="h3" size="md" className="mb-2 leading-snug">
+                      {edu.degree}
+                    </Heading>
+                    <Text variant="muted" className="mb-2 font-medium">
+                      {edu.school}
+                    </Text>
+                    <Badge variant="outline" size="sm">
+                      {edu.period}
+                    </Badge>
+                  </div>
+                </div>
               </Card>
             ))}
           </div>
         </Container>
       </Section>
+
+      {/* Bottom spacing */}
+      <div className="h-16" />
     </div>
   );
 }
