@@ -3,9 +3,9 @@ import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 
 import type { StorybookConfig } from '@storybook/react-vite';
-import type { InlineConfig } from 'vite';
 
 const require = createRequire(import.meta.url);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -16,11 +16,16 @@ const config: StorybookConfig = {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
   },
-  async viteFinal(config: InlineConfig) {
+  async viteFinal(config) {
     return {
       ...config,
       css: {
-        postcss: join(__dirname, '../postcss.config.js'),
+        postcss: {
+          plugins: [
+            require('tailwindcss')(join(__dirname, '../tailwind.config.js')),
+            require('autoprefixer'),
+          ],
+        },
       },
     };
   },
