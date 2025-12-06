@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import {
   Container,
   HorizontalCard,
-  Button,
+  Pill,
 } from '@alanspurlock-profile/spurlock-ui';
 import { useState, useEffect } from 'react';
 import { PERSONAL_INFO, ROLES, STATS } from '../constants'; // Adjust path if needed
@@ -196,7 +196,16 @@ export function HomePage() {
                   'Storybook',
                 ]}
                 footer="Learn More →"
-              />
+              >
+                <div className="mt-4">
+                  <Pill variant="accent" size="md">
+                    <span role="img" aria-label="sparkles">
+                      ✨
+                    </span>{' '}
+                    100% Vibe Coded
+                  </Pill>
+                </div>
+              </HorizontalCard>
             </Link>
 
             <Link to="/hotas-helper" className="block group max-w-5xl">
@@ -208,7 +217,16 @@ export function HomePage() {
                 description="A React/Vite application that uses Three.js and React Flow to visually map HOTAS control bindings for games like Star Citizen, Star Wars Squadrons, and more. An intuitive 3D interface that makes complex control mapping feel natural."
                 tags={['React', 'Vite', 'Three.js', 'React Flow']}
                 footer="Learn More →"
-              />
+              >
+                <div className="mt-4">
+                  <Pill variant="accent" size="md">
+                    <span role="img" aria-label="sparkles">
+                      ✨
+                    </span>{' '}
+                    100% Vibe Coded
+                  </Pill>
+                </div>
+              </HorizontalCard>
             </Link>
           </div>
         </section>

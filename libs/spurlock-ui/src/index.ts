@@ -16,3 +16,8 @@ export * from './lib/Divider';
 export * from './lib/Timeline';
 export * from './lib/spurlock-ui';
 export * from './lib/NavButton';
+export * from './lib/AngleSlider';
+export * from './lib/Checkbox';
+export * from './lib/Chip';
+export * from './lib/Input';
+export * from './lib/ColorInput';

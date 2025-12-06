@@ -15,3 +15,9 @@ You must use the Radix UI library to build the UI.
 If Radix does not have a component that you need, use a popular alternative like react-select.
 
 Data tables should use the tanstack table library.
+
+You are required to adhere to our Brand Colors and Typography found in "Design System -> Theme" in Storybook.
+
+When creating a new component in Storybook, you are required to create at a minimum of 7 stories for the component.
+
+When creating a new component in Storybook, make sure the category is correct, else create a new category that makes sense.

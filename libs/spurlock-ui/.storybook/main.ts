@@ -10,11 +10,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
+  stories: [
+    '../src/Introduction.stories.tsx',
+    '../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
+  ],
   addons: [],
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
+  },
+  docs: {
+    autodocs: false,
   },
   async viteFinal(config) {
     return {
