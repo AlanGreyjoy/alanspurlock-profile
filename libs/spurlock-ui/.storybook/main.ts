@@ -5,12 +5,12 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
-  addons: ['@storybook/addon-essentials'],
+  addons: [],
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {
       builder: {
-        viteConfigPath: 'vite.config.mts',
+        viteConfigPath: 'libs/spurlock-ui/vite.config.mts',
       },
     },
   },

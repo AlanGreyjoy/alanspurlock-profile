@@ -7,7 +7,7 @@
   "// targets": "to see all targets run: nx show project spurlock-ui --web",
   "targets": {
     "build-storybook": {
-      "executor": "@nx/storybook:build-storybook",
+      "executor": "@nx/storybook:build",
       "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/spurlock-ui",

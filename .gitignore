@@ -1,49 +1,379 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# compiled output
-dist
-tmp
-out-tsc
+##############################################################################
+# SECURITY - Environment Variables, Secrets, and Credentials
+##############################################################################
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+.envrc
+*.env
 
-# dependencies
-node_modules
+# API Keys and Secrets
+**/secrets/
+**/secret/
+**/.secrets/
+**/.secret/
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+*.der
+*.pub
+id_rsa
+id_dsa
+*.ppk
+*.secret
+*_rsa
+*_dsa
+*_key
+serviceAccountKey.json
+service-account-key.json
+credentials.json
+client_secret*.json
+firebase-adminsdk*.json
 
-# IDEs and editors
-/.idea
+# AWS
+.aws/
+**/.aws/credentials
+**/.aws/config
+
+# Google Cloud
+gcloud/
+.gcloud/
+**/gcloud/credentials
+**/google-credentials.json
+**/gcp-key.json
+**/*-key.json
+
+# Azure
+.azure/
+**/azure-credentials.json
+
+# Database connection strings
+database.yml
+database.json
+**/database.env
+db_credentials.*
+
+# SSH Keys
+**/.ssh/id_*
+**/.ssh/*.pem
+
+# GPG Keys
+secring.*
+*.gpg
+*.asc
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+**/.terraform/
+**/terraform.tfstate.d/
+
+# Kubernetes
+**/kubeconfig
+**/.kube/config
+**/k8s-secret*.yaml
+
+# Docker secrets
+**/docker-compose.override.yml
+**/docker-compose.*.local.yml
+**/.docker/config.json
+
+##############################################################################
+# Compiled Output
+##############################################################################
+dist/
+dist-ssr/
+tmp/
+temp/
+out-tsc/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+.output/
+.vercel/
+.netlify/
+public/build/
+
+##############################################################################
+# Dependencies
+##############################################################################
+node_modules/
+jspm_packages/
+bower_components/
+vendor/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+##############################################################################
+# IDEs and Editors
+##############################################################################
+# JetBrains IDEs (IntelliJ, WebStorm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Eclipse
 .project
 .classpath
 .c9/
 *.launch
 .settings/
-*.sublime-workspace
+.loadpath
+.buildpath
 
-# IDE - VSCode
+# VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+*.code-workspace
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
 
-# System Files
-.DS_Store
-Thumbs.db
+# Vim
+*.swp
+*.swo
+*~
+.*.sw[a-z]
+*.un~
+Session.vim
 
-.nx/cache
-.nx/workspace-data
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Cursor AI
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 
+##############################################################################
+# Operating System Files
+##############################################################################
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+.nfs*
+
+##############################################################################
+# Logs and Debugging
+##############################################################################
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+*.log.*
+log/
+*.log.gz
+*.log.zip
+*.pid
+*.seed
+*.pid.lock
+
+##############################################################################
+# Testing and Coverage
+##############################################################################
+coverage/
+*.lcov
+.nyc_output/
+lib-cov/
+.grunt/
+.lock-wscript
+.coverage
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+.cache
+nosetests.xml
+coverage.xml
+junit.xml
+test-results/
+*.spec.ts.snap
+*.spec.tsx.snap
+e2e-results/
+
+##############################################################################
+# Build Artifacts and Cache
+##############################################################################
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.eslintcache
+.stylelintcache
+.npm/
+.yarn-integrity
+.pnp/
+.nx/cache
+.nx/workspace-data
+.turbo/
+*.tgz
+*.zip
+*.tar
+*.tar.gz
+
+##############################################################################
+# Database Files
+##############################################################################
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+*.sql
+data.db
+local.db
+dev.db
+test.db
+*.bak
+
+##############################################################################
+# Backup and Temporary Files
+##############################################################################
+*.bak
+*.backup
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.*.swp
+.#*
+\#*#
+.tmp/
+.temp/
+
+##############################################################################
+# Framework and Tool Specific
+##############################################################################
+# Next.js
+.next/
+next-env.d.ts
+
+# Storybook
+storybook-static/
+.storybook/build/
+
+# Vite
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 
-storybook-static
+# Nx
+.nx/cache
+.nx/workspace-data
+
+# TypeScript
+*.tsbuildinfo
+
+# Sass
+.sass-cache/
+
+# Misc
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+*.orig
+
+##############################################################################
+# CI/CD and Deployment
+##############################################################################
+.serverless/
+.fusebox/
+.dynamodb/
+.terraform.lock.hcl
+
+##############################################################################
+# Local Development
+##############################################################################
+# Local environment overrides
+local.settings.json
+appsettings.local.json
+appsettings.*.local.json
+
+# Certificate files for local development
+localhost.pem
+localhost-key.pem
+*.local.crt
+*.local.key
+
+# Mock data
+**/mock-data/
+**/fixtures/sensitive/
+
+##############################################################################
+# Archives and Compressed Files (if containing sensitive data)
+##############################################################################
+# Uncomment if you want to ignore all archives
+# *.zip
+# *.tar.gz
+# *.rar
+# *.7z

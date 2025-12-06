@@ -87,16 +87,18 @@ export function HomePage() {
 
           {/* Social Proof */}
           <div className="border-t border-gray-100 pt-8">
-            <p className="text-gray-400 mb-4 text-sm font-medium uppercase tracking-wide">
+            <p className="text-gray-400 mb-6 text-sm font-medium uppercase tracking-wide">
               Career Highlights
             </p>
-            <div className="flex gap-12">
+            <div className="flex flex-col md:grid md:grid-cols-4 gap-6 md:gap-12">
               {STATS.map((stat, index) => (
                 <div key={index} className="flex flex-col">
-                  <span className="font-bold text-2xl text-gray-900">
+                  <span className="font-bold text-xl md:text-2xl text-gray-900 mb-1">
                     {stat.value}
                   </span>
-                  <span className="text-gray-500 text-sm">{stat.label}</span>
+                  <span className="text-gray-500 text-sm leading-tight">
+                    {stat.label}
+                  </span>
                 </div>
               ))}
             </div>

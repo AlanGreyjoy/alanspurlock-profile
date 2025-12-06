@@ -23,7 +23,7 @@ export function SpurlockUIPage() {
                 A Modern React Component Library
               </p>
               <a
-                href="http://localhost:4400"
+                href={import.meta.env.VITE_STORYBOOK_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-[#00d1b2] text-white font-bold text-lg rounded-lg shadow-lg hover:bg-[#00b89f] hover:shadow-xl transition-all transform hover:-translate-y-1"

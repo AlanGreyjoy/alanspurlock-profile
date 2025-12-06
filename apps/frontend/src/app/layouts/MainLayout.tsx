@@ -9,7 +9,11 @@ const navItems = [
   { path: '/', label: 'Home' },
   { path: '/about', label: 'About' },
   { path: '/experience', label: 'Work' },
-  { path: 'http://localhost:6006', label: 'Storybook', external: true },
+  {
+    path: import.meta.env.VITE_STORYBOOK_URL,
+    label: 'Storybook',
+    external: true,
+  },
   { path: '/contact', label: 'Contact' },
 ];
 
