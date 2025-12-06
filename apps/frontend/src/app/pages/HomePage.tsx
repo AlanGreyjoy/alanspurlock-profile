@@ -15,18 +15,22 @@ export function HomePage() {
       tick();
     }, delta);
 
-    return () => { clearInterval(ticker) };
+    return () => {
+      clearInterval(ticker);
+    };
   }, [text, delta]);
 
   const tick = () => {
     let i = roleIndex % ROLES.length;
     let fullText = ROLES[i];
-    let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+    let updatedText = isDeleting
+      ? fullText.substring(0, text.length - 1)
+      : fullText.substring(0, text.length + 1);
 
     setText(updatedText);
 
     if (isDeleting) {
-      setDelta(prevDelta => prevDelta / 2);
+      setDelta((prevDelta) => prevDelta / 2);
     }
 
     if (!isDeleting && updatedText === fullText) {
@@ -47,10 +51,9 @@ export function HomePage() {
       <Container size="lg">
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto text-left mb-32">
-
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-[1.1] mb-8 tracking-tight">
-            Hi, I’m {PERSONAL_INFO.name}, <br />
-            a <span className="text-[#00d1b2]">{text}</span>
+            Hi, I’m {PERSONAL_INFO.name}, <br />a{' '}
+            <span className="text-[#00d1b2]">{text}</span>
             <span className="inline-block w-1 md:w-2 h-10 md:h-16 bg-[#00d1b2] ml-2 animate-pulse align-middle"></span>
           </h1>
 
@@ -81,44 +84,77 @@ export function HomePage() {
 
           {/* Social Proof */}
           <div className="border-t border-gray-100 pt-8">
-            <p className="text-gray-400 mb-4 text-sm font-medium uppercase tracking-wide">Career Highlights</p>
+            <p className="text-gray-400 mb-4 text-sm font-medium uppercase tracking-wide">
+              Career Highlights
+            </p>
             <div className="flex gap-12">
               {STATS.map((stat, index) => (
                 <div key={index} className="flex flex-col">
-                  <span className="font-bold text-2xl text-gray-900">{stat.value}</span>
+                  <span className="font-bold text-2xl text-gray-900">
+                    {stat.value}
+                  </span>
                   <span className="text-gray-500 text-sm">{stat.label}</span>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
 
-        {/* WORK SECTION */}
+        {/* FEATURED PROJECT SECTION */}
         <section className="max-w-6xl mx-auto">
           <div className="flex justify-between items-end mb-16">
-            <h2 className="text-4xl md:text-6xl font-black text-gray-900">Recent Work</h2>
-            <Link to="/experience" className="text-xl font-bold text-[#ff0055] hover:text-[#d40047] transition-colors">See All Projects →</Link>
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900">
+              Featured Project
+            </h2>
+            <Link
+              to="/experience"
+              className="text-xl font-bold text-[#ff0055] hover:text-[#d40047] transition-colors"
+            >
+              See All Work →
+            </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {EXPERIENCE.slice(0, 2).map((job, idx) => (
-              <div key={idx} className="p-10 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow bg-white">
-                <div className="h-48 bg-gray-50 rounded-xl mb-6 flex items-center justify-center">
-                  <span className="text-4xl">{job.icon}</span>
-                </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">{job.company}</h3>
-                <p className="text-gray-500 mb-4 font-medium">{job.role}</p>
-                <p className="text-gray-600 leading-relaxed">{job.description}</p>
+          <div className="max-w-3xl mx-auto">
+            <Link
+              to="/hotas-helper"
+              className="block p-12 border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all bg-white group hover:-translate-y-2"
+            >
+              <div className="h-64 bg-gradient-to-br from-[#00d1b2]/10 to-[#ff0055]/10 rounded-xl mb-8 flex items-center justify-center">
+                <span className="text-8xl group-hover:scale-110 transition-transform">
+                  🕹️
+                </span>
               </div>
-            ))}
+              <h3 className="text-4xl font-bold text-gray-900 mb-4 group-hover:text-[#ff0055] transition-colors">
+                HotasHelper
+              </h3>
+              <p className="text-gray-500 mb-4 font-medium text-xl">
+                Visual HOTAS Control Binding Mapper
+              </p>
+              <p className="text-gray-600 leading-relaxed text-lg mb-6">
+                A React/Vite application that uses Three.js and React Flow to
+                visually map HOTAS control bindings for games like Star Citizen,
+                Star Wars Squadrons, and more. An intuitive 3D interface that
+                makes complex control mapping feel natural.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['React', 'Vite', 'Three.js', 'React Flow'].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-6 text-[#ff0055] font-bold text-lg group-hover:translate-x-2 transition-transform inline-block">
+                Learn More →
+              </div>
+            </Link>
           </div>
         </section>
-
       </Container>
     </div>
   );
 }
 
 export default HomePage;
-

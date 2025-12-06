@@ -4,6 +4,7 @@ import { HomePage } from './pages/HomePage';
 import { ExperiencePage } from './pages/ExperiencePage';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { ContactPage } from './pages/ContactPage';
+import { HotasHelperPage } from './pages/HotasHelperPage';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: 'contact',
         element: <ContactPage />,
+      },
+      {
+        path: 'hotas-helper',
+        element: <HotasHelperPage />,
       },
     ],
   },

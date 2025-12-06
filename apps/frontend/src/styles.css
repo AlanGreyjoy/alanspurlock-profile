@@ -1,8 +1,9 @@
+@import '@radix-ui/themes/styles.css';
+
+/* Force recompilation */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import '@radix-ui/themes/styles.css';
 
 /* Spurlock UI Design Tokens - Tiny Glade / Chill Vibes Theme */
 @layer base {
