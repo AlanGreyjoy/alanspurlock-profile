@@ -1,0 +1,9 @@
+{
+  "name": "spurlock-ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/spurlock-ui/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project spurlock-ui --web",
+  "targets": {}
+}

@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+
+You must use the Spurlock UI library to build the UI.
+
+The Spurlock UI library is located in the libs/spurlock-ui directory.
+
+This is our component library. You must use the components in this library to build the UI, if it is not in this library, you must create it.
+
+You must use the Tailwind CSS framework to build the UI.
+
+You must use the Radix UI library to build the UI.
+
+If Radix does not have a component that you need, use a popular alternative like react-select.
+
+Data tables should use the tanstack table library.

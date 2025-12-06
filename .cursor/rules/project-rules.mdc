@@ -1,0 +1,59 @@
+---
+alwaysApply: true
+---
+
+# Project Overview
+
+This project is my personal website. It is basically my resume and portfolio and whatever random stuff I want to throw on it.
+
+It is heavily vibe coded. Why? Because I know what I am doing.
+
+# Architecture Principles
+
+## Monorepo
+
+- This is a monorepo project.
+- We use Nx to manage the project.
+- We use pnpm to manage the dependencies.
+
+## Domain Driven Design (DDD)
+
+- Organize code by business domains, not technical layers
+- Use bounded contexts to separate domain models
+- Keep domain logic pure and independent of infrastructure
+
+## SOLID Principles
+
+- **Single Responsibility**: Each class/function should have one reason to change
+- **Open/Closed**: Open for extension, closed for modification
+- **Liskov Substitution**: Subtypes must be substitutable for their base types
+- **Interface Segregation**: Many specific interfaces are better than one general interface
+- **Dependency Inversion**: Depend on abstractions, not concretions
+
+## Separation of Concerns (SOC)
+
+- Separate presentation logic from business logic
+- Keep UI components focused on rendering and user interaction
+- Isolate data fetching and state management from components
+- Maintain clear boundaries between layers (UI, domain, infrastructure)
+
+## Code Quality
+
+### Cyclomatic Complexity
+
+- Keep cyclomatic complexity below 10 per function/method
+- Refactor complex functions into smaller, focused units
+- Use early returns and guard clauses to reduce nesting
+
+### Code Splitting
+
+- Implement lazy loading for routes and heavy components
+- Split vendor bundles from application code
+- Use dynamic imports for large dependencies
+- Optimize bundle size for initial page load
+
+# Considerations
+
+- DO NOT create .md files unless explicitly requested
+- DO NOT run apps or servers. Chances are, we already have a task running them. You just fuck everything up with you do that.
+- If you are stuck, search the internet for a solution.
