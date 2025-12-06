@@ -8,8 +8,7 @@ export const PERSONAL_INFO = {
   social: {
     linkedin: 'https://www.linkedin.com/in/alans-6a57a8180',
     twitter: 'https://x.com/NalaLockspur',
-    github: 'https://github.com/alanspurlock', // Inferring from previous context or generic, but user didn't explicitly give github URL in the block. Wait, the resume mentions "Find me on Twitter and GitHub" in my previous code. I'll use a placeholder or check if I have it. The user has a github profile /home/aspurlock/dev/monos/alanspurlock-profile implies alanspurlock. I'll assume https://github.com/alanspurlock or leave as generic if unknown.
-    // Actually, I'll allow the UI to handle missing links gracefully, but I'll put the ones provided.
+    github: 'https://github.com/AlanGreyjoy',
   },
 };
 

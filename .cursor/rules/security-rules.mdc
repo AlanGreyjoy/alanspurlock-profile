@@ -1,0 +1,121 @@
+---
+alwaysApply: true
+---
+
+# Security Rules
+
+## Input Validation & Sanitization
+
+- NEVER trust user input - validate, sanitize, and escape ALL input
+- Use parameterized queries/prepared statements for ALL database operations
+- Validate input types, lengths, formats, and ranges on both client AND server
+- Use allowlists over denylists for input validation
+- Sanitize file names and paths to prevent directory traversal
+
+## XSS (Cross-Site Scripting) Prevention
+
+- Always escape/encode output in HTML, JavaScript, CSS, and URL contexts
+- Use framework-provided escaping functions (React auto-escapes JSX)
+- Never use `dangerouslySetInnerHTML` without sanitizing with DOMPurify
+- Set Content-Security-Policy headers to restrict script sources
+- Avoid inline JavaScript and event handlers in HTML
+
+## SQL Injection Prevention
+
+- ALWAYS use parameterized queries or ORMs with proper escaping
+- NEVER concatenate user input into SQL queries
+- Use principle of least privilege for database accounts
+- Validate and sanitize all input before database operations
+
+## Database & Backend Services (Supabase, etc.)
+
+- NEVER EVER use realtime database connections on the frontend
+- ONLY access realtime DB from backend services using the adminKey
+- Frontend must communicate with backend APIs, which then access the database
+- Admin keys and service role keys must NEVER be exposed to client-side code
+- Use Row Level Security (RLS) policies for user-accessible database operations
+
+## Authentication & Authorization
+
+- Implement proper authentication on ALL protected endpoints
+- Use JWT/session tokens with secure storage (httpOnly, secure, sameSite cookies)
+- Verify authorization on EVERY protected resource access
+- Implement proper password hashing (bcrypt, argon2) - NEVER store plain text
+- Enforce strong password requirements and implement rate limiting on auth endpoints
+- Use MFA where possible for sensitive operations
+
+## API Security
+
+- Implement rate limiting on all public endpoints
+- Use HTTPS everywhere - NEVER send sensitive data over HTTP
+- Validate and sanitize API request bodies, headers, and query parameters
+- Return appropriate HTTP status codes without exposing sensitive error details
+- Implement proper CORS policies - don't use wildcard origins in production
+
+## Secrets Management
+
+- NEVER hardcode API keys, passwords, or secrets in code
+- Use environment variables or secret management systems
+- Add sensitive files to .gitignore (`.env`, private keys, etc.)
+- Rotate secrets regularly and revoke compromised credentials immediately
+- NEVER log sensitive data (passwords, tokens, PII)
+
+## CSRF Protection
+
+- Use CSRF tokens for state-changing operations
+- Implement SameSite cookie attribute (Strict or Lax)
+- Verify Origin/Referer headers for sensitive requests
+- Require re-authentication for critical operations
+
+## File Upload Security
+
+- Validate file types by content (magic numbers), not just extension
+- Limit file sizes and implement quotas
+- Store uploaded files outside web root with restricted permissions
+- Scan files for malware where applicable
+- Generate random filenames to prevent overwrites and path traversal
+
+## Session Management
+
+- Generate cryptographically random session IDs
+- Implement session timeout and absolute timeout
+- Regenerate session IDs after login/privilege changes
+- Securely destroy sessions on logout
+- Use secure, httpOnly, sameSite cookie flags
+
+## Error Handling & Logging
+
+- NEVER expose stack traces, database errors, or system info in production
+- Log security events (failed auth, suspicious activity) for monitoring
+- Implement proper error boundaries and generic error messages for users
+- Monitor and alert on security-relevant events
+
+## Dependency Security
+
+- Keep ALL dependencies up to date with security patches
+- Use `npm audit` or `pnpm audit` regularly
+- Review dependency chains for known vulnerabilities
+- Pin dependency versions and use lock files
+
+## Data Protection
+
+- Encrypt sensitive data at rest and in transit
+- Implement proper access controls and data minimization
+- Sanitize/redact sensitive data in logs and error messages
+- Implement proper data retention and deletion policies
+- NEVER store PII at rest on the frontend (Zustand, localStorage, sessionStorage)
+- PII should only exist in memory temporarily or be fetched from backend as needed
+
+## Frontend Security
+
+- Validate data on server even if validated on client
+- Use subresource integrity (SRI) for CDN resources
+- Implement proper Content-Security-Policy headers
+- Avoid exposing sensitive logic or data in client-side code
+
+## Headers & Configuration
+
+- Set security headers: X-Content-Type-Options, X-Frame-Options, Strict-Transport-Security
+- Disable unnecessary HTTP methods and server information disclosure
+- Configure CORS appropriately - no wildcard origins with credentials
+- Set appropriate cache headers for sensitive data

@@ -5,3 +5,4 @@ export { ProjectsPage } from './ProjectsPage';
 export { ContactPage } from './ContactPage';
 export { HotasHelperPage } from './HotasHelperPage';
 export { SpurlockUIPage } from './SpurlockUIPage';
+export { VibeLikeAlanPage } from './VibeLikeAlanPage';

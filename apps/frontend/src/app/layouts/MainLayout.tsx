@@ -1,6 +1,7 @@
 import { Container, NavButton } from '@alanspurlock-profile/spurlock-ui';
 import { PERSONAL_INFO } from '../constants';
 import { AnimatedOutlet } from '../../components/AnimatedOutlet';
+import { ScrollToTop } from '../../components/ScrollToTop';
 
 // Navigation items matching the requested style "Home, Work, Storybook..."
 const navItems = [
@@ -14,6 +15,7 @@ const navItems = [
 export function MainLayout() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-pink-500 selection:text-white">
+      <ScrollToTop />
       {/* Header */}
       <header className="w-full py-8 md:py-12">
         <Container size="lg">

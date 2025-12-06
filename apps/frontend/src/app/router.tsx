@@ -7,6 +7,7 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { ContactPage } from './pages/ContactPage';
 import { HotasHelperPage } from './pages/HotasHelperPage';
 import { SpurlockUIPage } from './pages/SpurlockUIPage';
+import { VibeLikeAlanPage } from './pages/VibeLikeAlanPage';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: 'spurlock-ui',
         element: <SpurlockUIPage />,
+      },
+      {
+        path: 'vibe-like-alan',
+        element: <VibeLikeAlanPage />,
       },
     ],
   },
