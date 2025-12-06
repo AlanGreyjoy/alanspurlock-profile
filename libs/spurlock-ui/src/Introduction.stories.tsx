@@ -21,7 +21,7 @@ const IntroductionComponent = () => {
           font-weight: 900;
           line-height: 1.2;
           margin-bottom: 1rem;
-          color: #111827;
+          color: #ff0055;
         }
 
         .sb-section-title p {
