@@ -1,7 +1,8 @@
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 
 import type { StorybookConfig } from '@storybook/react-vite';
+import type { InlineConfig } from 'vite';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
@@ -14,6 +15,21 @@ const config: StorybookConfig = {
       },
     },
   },
+  async viteFinal(config: InlineConfig) {
+    return {
+      ...config,
+      css: {
+        postcss: {
+          plugins: [
+            require('tailwindcss')({
+              config: join(__dirname, '../tailwind.config.js'),
+            }),
+            require('autoprefixer'),
+          ],
+        },
+      },
+    };
+  },
 };
 
 function getAbsolutePath(value: string): any {
@@ -21,7 +37,3 @@ function getAbsolutePath(value: string): any {
 }
 
 export default config;
-
-// To customize your Vite configuration you can use the viteFinal field.
-// Check https://storybook.js.org/docs/react/builders/vite#configuration
-// and https://nx.dev/recipes/storybook/custom-builder-configs
