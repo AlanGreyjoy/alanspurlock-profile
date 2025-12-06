@@ -20,4 +20,6 @@ export * from './lib/AngleSlider';
 export * from './lib/Checkbox';
 export * from './lib/Chip';
 export * from './lib/Input';
+export * from './lib/PasswordInput';
 export * from './lib/ColorInput';
+export * from './lib/FileInput';

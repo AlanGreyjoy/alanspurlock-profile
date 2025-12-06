@@ -1,30 +1,63 @@
 import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Chip, type ChipProps } from '../Chip/Chip';
 
+/**
+ * A flexible input component that supports labels, helper text, error states, icons, and chips.
+ *
+ * @example
+ * ```tsx
+ * <Input
+ *   label="Email"
+ *   placeholder="you@example.com"
+ *   error={!!errors.email}
+ *   errorMessage={errors.email}
+ * />
+ * ```
+ */
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  /** Size variant */
+  /**
+   * Size variant of the input
+   * @default 'md'
+   */
   size?: 'sm' | 'md' | 'lg';
-  /** Optional label */
+  /**
+   * Label text displayed above the input
+   */
   label?: string;
-  /** Optional helper text */
+  /**
+   * Helper text displayed below the input (not shown when error is present)
+   */
   helperText?: string;
-  /** Error state */
+  /**
+   * Whether the input is in an error state. Changes border color to red.
+   * @default false
+   */
   error?: boolean;
-  /** Error message */
+  /**
+   * Error message displayed below the input when error is true
+   */
   errorMessage?: string;
-  /** Chips to display inside the input */
+  /**
+   * Array of chip objects to display inside the input (useful for tags/skills)
+   */
   chips?: Array<{
     id: string;
     label: string;
     variant?: ChipProps['variant'];
     icon?: ReactNode;
   }>;
-  /** Callback when a chip is removed */
+  /**
+   * Callback fired when a chip's remove button is clicked
+   */
   onChipRemove?: (chipId: string) => void;
-  /** Optional prefix icon */
+  /**
+   * Icon or element displayed at the start of the input
+   */
   prefixIcon?: ReactNode;
-  /** Optional suffix icon */
+  /**
+   * Icon or element displayed at the end of the input
+   */
   suffixIcon?: ReactNode;
 }
 
@@ -46,8 +79,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const baseStyles =
-      'w-full rounded-md border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent';
+    // Input element styles (no border - wrapper handles that)
+    const inputStyles =
+      'w-full p-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0';
 
     const sizeStyles = {
       sm: 'h-9 text-sm',
@@ -55,15 +89,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       lg: 'h-14 text-lg',
     };
 
-    const borderStyles = error
-      ? 'border-red-500 focus-visible:ring-red-500'
-      : 'border-brand-primary focus-visible:border-brand-primary focus-visible:ring-brand-primary';
-
     const wrapperBorderStyles = error
       ? 'border-red-500'
       : 'border-brand-primary';
 
-    const inputClasses = `${baseStyles} ${sizeStyles[size]} ${borderStyles} ${className}`;
+    const wrapperFocusStyles = error
+      ? 'focus-within:ring-red-500'
+      : 'focus-within:ring-brand-primary';
+
+    const inputClasses = `${inputStyles} ${sizeStyles[size]} ${className}`;
 
     const chipContainerSize = {
       sm: 'gap-1',
@@ -99,7 +133,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <div
-          className={`relative flex items-center ${getWrapperPadding()} border-2 rounded-md ${wrapperBorderStyles} focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-primary transition-colors`}
+          className={`relative flex items-center ${getWrapperPadding()} border-2 rounded-md ${wrapperBorderStyles} focus-within:ring-2 focus-within:ring-offset-2 ${wrapperFocusStyles} transition-colors`}
         >
           {prefixIcon && (
             <div className={getIconContainerClasses(true)}>{prefixIcon}</div>
@@ -126,7 +160,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={id}
-            className={`${inputClasses} flex-1 min-w-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0`}
+            className={`${inputClasses} flex-1 min-w-0`}
             {...props}
           />
           {suffixIcon && (

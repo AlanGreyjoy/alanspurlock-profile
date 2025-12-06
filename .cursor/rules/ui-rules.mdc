@@ -21,3 +21,5 @@ You are required to adhere to our Brand Colors and Typography found in "Design S
 When creating a new component in Storybook, you are required to create at a minimum of 7 stories for the component.
 
 When creating a new component in Storybook, make sure the category is correct, else create a new category that makes sense.
+
+When creating a new component or updating an existing component, you are required to update or create a usage example in the Storybook in each components Docs section

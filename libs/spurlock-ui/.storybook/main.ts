@@ -14,13 +14,16 @@ const config: StorybookConfig = {
     '../src/Introduction.stories.tsx',
     '../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   ],
-  addons: [],
+  addons: [getAbsolutePath('@storybook/addon-essentials')],
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
   },
+  core: {
+    disableOnboarding: true,
+  },
   docs: {
-    autodocs: false,
+    autodocs: true,
   },
   async viteFinal(config) {
     return {
