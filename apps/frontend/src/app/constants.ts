@@ -6,7 +6,7 @@ export const PERSONAL_INFO = {
   email: 'ams07141986@gmail.com',
   phone: '469-514-9600',
   social: {
-    linkedin: 'https://www.linkedin.com/in/alans-6a57a8180',
+    linkedin: 'https://www.linkedin.com/in/alan-s-6a57a8180/',
     twitter: 'https://x.com/NalaLockspur',
     github: 'https://github.com/AlanGreyjoy',
   },

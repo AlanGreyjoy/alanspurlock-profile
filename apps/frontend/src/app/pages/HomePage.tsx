@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Container, HorizontalCard } from '@alanspurlock-profile/spurlock-ui';
+import {
+  Container,
+  HorizontalCard,
+  Button,
+} from '@alanspurlock-profile/spurlock-ui';
 import { useState, useEffect } from 'react';
 import { PERSONAL_INFO, ROLES, STATS } from '../constants'; // Adjust path if needed
 
@@ -130,7 +134,7 @@ export function HomePage() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
                     to="/vibe-like-alan"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00d1b2] to-[#ff0055] text-white font-bold rounded-lg hover:shadow-xl transition-all transform hover:-translate-y-1 shadow-lg"
+                    className="inline-flex items-center justify-center gap-2 h-14 px-8 text-lg font-bold border-2 border-[#00d1b2] bg-transparent text-[#00d1b2] hover:bg-[#00d1b2]/10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#00d1b2] rounded-md hover:-translate-y-0.5 transition-all"
                   >
                     <span className="text-xl">✨</span>
                     How This Works

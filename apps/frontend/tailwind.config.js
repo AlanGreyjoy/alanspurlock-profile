@@ -6,7 +6,14 @@ module.exports = {
     '../../libs/spurlock-ui/src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          primary: '#ff0055',
+          secondary: '#00d1b2',
+        },
+      },
+    },
   },
   plugins: [],
 };

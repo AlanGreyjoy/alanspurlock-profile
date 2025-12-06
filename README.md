@@ -1,5 +1,7 @@
 # Alan Spurlock - Personal Website
 
+[![Build, Lint, and Deploy](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy.yml/badge.svg)](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy.yml)
+
 My personal website, portfolio, and resume — plus whatever random stuff I want to throw on it.
 
 ## Tech Stack
@@ -86,6 +88,17 @@ pnpm exec nx serve frontend
 pnpm exec nx build api-gateway
 pnpm exec nx storybook spurlock-ui
 ```
+
+## CI/CD
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+- **Automated Testing**: Linting runs on every push and PR
+- **Automated Builds**: Project builds automatically on every push and PR
+- **Automated Deployment**: Pushes to `main` automatically deploy to Netlify
+- **Preview Deployments**: PRs get preview deployment links
+
+See [CI/CD Setup Instructions](.github/CICD_SETUP.md) for configuration details.
 
 ## License
 

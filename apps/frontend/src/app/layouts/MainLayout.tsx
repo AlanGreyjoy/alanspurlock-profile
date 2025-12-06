@@ -2,6 +2,7 @@ import { Container, NavButton } from '@alanspurlock-profile/spurlock-ui';
 import { PERSONAL_INFO } from '../constants';
 import { AnimatedOutlet } from '../../components/AnimatedOutlet';
 import { ScrollToTop } from '../../components/ScrollToTop';
+import { Link } from 'react-router-dom';
 
 // Navigation items matching the requested style "Home, Work, Storybook..."
 const navItems = [
@@ -21,8 +22,8 @@ export function MainLayout() {
         <Container size="lg">
           <nav className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0">
             {/* Logo / Brand */}
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-[#ff0055] rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-sm rotate-3 transform hover:rotate-6 transition-transform">
+            <Link to="/" className="flex items-center gap-4 group">
+              <div className="w-12 h-12 bg-[#ff0055] rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-sm rotate-3 transform group-hover:rotate-6 transition-transform cursor-pointer">
                 AS
               </div>
               <div className="flex flex-col">
@@ -33,7 +34,7 @@ export function MainLayout() {
                   Engineering Leader & Consultant
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* Navigation */}
             <ul className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
