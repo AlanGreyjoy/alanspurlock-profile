@@ -24,3 +24,4 @@ export * from './lib/PasswordInput';
 export * from './lib/OTPInput';
 export * from './lib/ColorInput';
 export * from './lib/FileInput';
+export * from './lib/Radio';
