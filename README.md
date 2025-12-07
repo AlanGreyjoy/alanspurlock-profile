@@ -1,7 +1,6 @@
 # Alan Spurlock - Personal Website
 
 [![CI](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/ci.yml/badge.svg)](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/ci.yml)
-[![Deploy to Netlify](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy-netlify.yml/badge.svg)](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy-netlify.yml)
 [![Deploy to Railway](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy-railway.yml/badge.svg)](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy-railway.yml)
 
 My personal website, portfolio, and resume — plus whatever random stuff I want to throw on it.
