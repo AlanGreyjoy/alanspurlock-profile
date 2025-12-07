@@ -2,6 +2,9 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { RadioGroup, RadioItem } from './Radio';
 
+// Re-export RadioGroupPrimitive for the story above
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+
 const meta: Meta<typeof RadioGroup> = {
   component: RadioGroup,
   title: 'Inputs/Radio',
@@ -410,6 +413,3 @@ export const IndividualRadioItems: Story = {
     );
   },
 };
-
-// Re-export RadioGroupPrimitive for the story above
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';

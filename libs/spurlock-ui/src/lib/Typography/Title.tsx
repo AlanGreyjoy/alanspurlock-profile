@@ -48,7 +48,7 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>(
     const Tag = `h${order}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
     let sizeClass = '';
-    let customStyle: React.CSSProperties = {};
+    const customStyle: React.CSSProperties = {};
 
     if (size === undefined) {
       // If no size provided, use the semantic size based on order
