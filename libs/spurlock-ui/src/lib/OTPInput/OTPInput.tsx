@@ -296,11 +296,13 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
       e.target.select();
     };
 
-    const borderStyles = error ? 'border-red-500' : 'border-brand-primary';
+    const borderStyles = error ? 'border-red-500' : 'border-gray-300';
 
     const focusStyles = error
-      ? 'focus:ring-red-500'
-      : 'focus:ring-brand-primary';
+      ? 'focus:ring-red-500 focus:border-red-500'
+      : 'focus:ring-brand-secondary focus:border-brand-secondary';
+
+    const hoverStyles = error ? '' : 'hover:border-gray-400';
 
     const iconSizeClass =
       size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5';
@@ -361,7 +363,7 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
                 disabled={disabled}
                 className={`
                   ${sizeStyles[size]}
-                  border-2 ${borderStyles}
+                  border-2 ${borderStyles} ${hoverStyles}
                   rounded-md
                   text-center
                   font-semibold

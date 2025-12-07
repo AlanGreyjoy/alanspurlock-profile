@@ -334,8 +334,8 @@ export const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
     };
 
     const borderStyles = error
-      ? 'border-red-500 focus-visible:ring-red-500'
-      : 'border-[var(--color-border)] focus-visible:border-brand-primary focus-visible:ring-brand-primary';
+      ? 'border-red-500 focus-visible:ring-red-500 focus-visible:border-red-500'
+      : 'border-gray-300 focus-visible:border-brand-secondary focus-visible:ring-brand-secondary hover:border-gray-400';
 
     const baseInputStyles =
       'w-full rounded-md border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent';
@@ -359,9 +359,11 @@ export const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
             <div
               className={`relative flex items-center ${
                 paddingStyles[size]
-              } ${borderStyles} rounded-md ${
-                error ? 'border-red-500' : 'border-[var(--color-border)]'
-              } focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-primary transition-colors cursor-pointer`}
+              } border-2 rounded-md ${
+                error
+                  ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
+                  : 'border-gray-300 hover:border-gray-400 focus-within:border-brand-secondary focus-within:ring-brand-secondary'
+              } focus-within:ring-2 focus-within:ring-offset-2 transition-colors cursor-pointer`}
             >
               {/* Color preview */}
               <div

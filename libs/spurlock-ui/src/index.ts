@@ -26,3 +26,4 @@ export * from './lib/ColorInput';
 export * from './lib/FileInput';
 export * from './lib/Radio';
 export * from './lib/RangeSlider';
+export * from './lib/Select';

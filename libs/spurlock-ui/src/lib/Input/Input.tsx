@@ -89,13 +89,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       lg: 'h-14 text-lg',
     };
 
-    const wrapperBorderStyles = error
-      ? 'border-red-500'
-      : 'border-brand-primary';
+    const wrapperBorderStyles = error ? 'border-red-500' : 'border-gray-300';
 
     const wrapperFocusStyles = error
-      ? 'focus-within:ring-red-500'
-      : 'focus-within:ring-brand-primary';
+      ? 'focus-within:ring-red-500 focus-within:border-red-500'
+      : 'focus-within:ring-brand-secondary focus-within:border-brand-secondary';
+
+    const wrapperHoverStyles = error ? '' : 'hover:border-gray-400';
 
     const inputClasses = `${inputStyles} ${sizeStyles[size]} ${className}`;
 
@@ -133,7 +133,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <div
-          className={`relative flex items-center ${getWrapperPadding()} border-2 rounded-md ${wrapperBorderStyles} focus-within:ring-2 focus-within:ring-offset-2 ${wrapperFocusStyles} transition-colors`}
+          className={`relative flex items-center ${getWrapperPadding()} border-2 rounded-md ${wrapperBorderStyles} ${wrapperHoverStyles} focus-within:ring-2 focus-within:ring-offset-2 ${wrapperFocusStyles} transition-colors`}
         >
           {prefixIcon && (
             <div className={getIconContainerClasses(true)}>{prefixIcon}</div>

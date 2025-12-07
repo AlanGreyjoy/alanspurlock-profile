@@ -152,8 +152,8 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const borderStyles = error
       ? 'border-red-500'
       : isDragging
-      ? 'border-brand-primary bg-brand-primary/5'
-      : 'border-brand-primary hover:border-brand-primary/70';
+      ? 'border-brand-secondary bg-brand-secondary/5'
+      : 'border-gray-300 hover:border-gray-400';
 
     // Process files
     const processFiles = useCallback(
