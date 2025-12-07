@@ -1,7 +1,12 @@
-const { join } = require('path');
+import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     join(__dirname, 'src/**/*.{js,jsx,ts,tsx}'),
     join(__dirname, '.storybook/**/*.{js,jsx,ts,tsx}'),
