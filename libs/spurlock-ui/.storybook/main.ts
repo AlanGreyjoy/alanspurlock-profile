@@ -24,10 +24,7 @@ const config: StorybookConfig = {
       ...config,
       css: {
         postcss: {
-          plugins: [
-            tailwindcss(),
-            autoprefixer(),
-          ],
+          plugins: [tailwindcss(), autoprefixer()],
         },
       },
     };
