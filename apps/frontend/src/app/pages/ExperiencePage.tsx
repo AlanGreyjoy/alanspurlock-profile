@@ -9,6 +9,8 @@ import {
   Timeline,
   TimelineItem,
   Pills,
+  Select,
+  Button,
 } from '@alanspurlock-profile/spurlock-ui';
 import {
   Briefcase,
@@ -20,8 +22,11 @@ import {
   Anchor,
   Gamepad2,
   Rabbit,
+  Download,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
+import { EXPERIENCES, EDUCATION } from '../../lib/resume-data';
 
 interface Experience {
   company: string;
@@ -34,198 +39,133 @@ interface Experience {
   icon?: ReactNode;
 }
 
-const experiences: Experience[] = [
-  {
-    company: 'Goosehead Insurance Agency',
-    role: 'Senior Software Engineer',
-    period: 'June 2024 - Present',
-    location: 'Westlake, Texas',
-    highlights: [],
-    icon: <Briefcase />,
-  },
-  {
-    company: 'Sipharmony, LLC',
-    role: 'Founder & Engineer',
-    period: 'January 2022 - Present',
-    description:
-      'Custom platform - written on top of Asterisk. Single handedly wrote a complete UCaaS/CPaaS platform.',
-    highlights: [
-      'Full scale, multi-hosted, and geo location failover PBX system',
-      'Complete with SMS/MMS, Public facing API, Skill Based Routing',
-      'AI services, AI assisted power dialer',
-      'All the bells and whistles of other leading providers',
-    ],
-    technologies: [
-      'React/Vite',
-      'Sip.js',
-      'MongoDB',
-      'Supabase',
-      'Asterisk 20',
-      'RTP Engine',
-      'Coturn',
-      'Kamailio',
-      'Python',
-      'Node.js',
-      'Docker',
-    ],
-    icon: <Phone />,
-  },
-  {
-    company: 'CBRE',
-    role: 'Lead Sr Software Engineer',
-    period: 'July 2023 - May 2024',
-    location: 'United States',
-    highlights: [
-      'Led a team through the full software development lifecycle',
-      '50% increase in frontend speed by adding RTK, RTK-QUERY, and React Hook Form',
-      '20% increase in user engagement and performance',
-      'Implemented Terraform (Infrastructure as code) for PR based deployments',
-      'Implemented Husky pre-commit and pre-push scripts for CI/CD',
-      'Managed Azure access, repositories, and permissions',
-    ],
-    technologies: [
-      'JavaScript',
-      'Python',
-      'Azure DevOps',
-      'Node.js',
-      'Express.js',
-      'Stoplight.io',
-    ],
-    icon: <Building />,
-  },
-  {
-    company: 'GalaxE.Solutions',
-    role: 'Lead Sr Full Stack Software Engineer',
-    period: 'April 2022 - May 2023',
-    highlights: [
-      'Led team in designing microservices architecture',
-      'Developed RESTful APIs with Node.js and Express',
-      'Implemented CI/CD pipelines using GitHub Actions and Docker',
-      'Led offshore teams transitioning SpringBoot/DB2 to Node.js/Postgres',
-    ],
-    technologies: [
-      'Node.js',
-      'Express',
-      'React',
-      'GitHub Actions',
-      'GitLab',
-      'Azure Pipelines',
-      'Docker',
-    ],
-    icon: <Rocket />,
-  },
-  {
-    company: 'Integritek',
-    role: 'Sr VoIP Software Engineer',
-    period: 'February 2017 - December 2021',
-    location: 'Austin, Texas',
-    highlights: [
-      'Developed enterprise VoIP applications',
-      'Implemented SIP protocols and VoIP features',
-      'Integrated VoIP solutions with CRM systems',
-      'Developed large-scale Node.js servers interacting with 350+ FreePBX installs',
-    ],
-    technologies: [
-      'Node.js',
-      'React.js',
-      'Next.js',
-      'SIP',
-      'FreePBX',
-      'pfSense',
-    ],
-    icon: <Headphones />,
-  },
-  {
-    company: 'PanelSense, LLC',
-    role: 'Principal Software Engineer',
-    period: 'August 2019 - May 2020',
-    location: 'Dallas, Texas',
-    highlights: [
-      'Directed development increasing efficiency by 30% and reducing costs by 20%',
-      'Led a team of 50+ engineers, launching 5 new products on time',
-      'Implemented Agile methodologies, reducing time-to-market by 40%',
-      'Drove a 15% increase in revenue through technology strategy',
-      'Reduced downtime by 25% with cloud technologies and automation',
-    ],
-    technologies: [
-      'GitHub Actions',
-      'ESLint',
-      'SonarQube',
-      'Checkmarx',
-      'CyberArk',
-    ],
-    icon: <Zap />,
-  },
-  {
-    company: 'SeaDek Marine Products',
-    role: 'Software Engineer',
-    period: 'January 2016 - April 2017',
-    location: 'Rockledge, Florida',
-    highlights: [
-      'Developed customer-facing web application with Laravel',
-      'Created RhinoDek plugin for Rhino3D, saving 45 minutes per project',
-      'Automated manufacturing processes with AutoInput Bot and SigmaBot',
-    ],
-    technologies: ['Laravel', 'C#', 'Winforms', 'WPF', 'Rhino3D', 'SigmaNest'],
-    icon: <Anchor />,
-  },
-  {
-    company: 'SkillCheck Games',
-    role: 'Unity3D Software Engineer',
-    period: '2010 - 2016',
-    location: 'Seattle, Washington',
-    highlights: [
-      'Lead code reviews',
-      'Designed a simple Auction House using Node.js and Postgres',
-      'Designed an authoritative MMORPG server using TCP I/O',
-    ],
-    technologies: ['Unity3D', 'C#', 'Node.js', 'Postgres', 'TCP/IP'],
-    icon: <Gamepad2 />,
-  },
-  {
-    company: 'The Dead Rabbits',
-    role: 'Founder',
-    period: 'January 2008 - January 2015',
-    location: 'Dallas/Fort Worth Area',
-    description:
-      'Custom software solutions and game dev studio. Consulted and wrote Unity3D C# scripts for various gaming companies and projects.',
-    highlights: [],
-    technologies: ['Unity3D', 'C#'],
-    icon: <Rabbit />,
-  },
+// Map icons to experiences
+const iconMap: Record<string, ReactNode> = {
+  'Goosehead Insurance Agency': <Briefcase />,
+  'Sipharmony, LLC': <Phone />,
+  CBRE: <Building />,
+  'GalaxE.Solutions': <Rocket />,
+  Integritek: <Headphones />,
+  'PanelSense, LLC': <Zap />,
+  'SeaDek Marine Products': <Anchor />,
+  'SkillCheck Games': <Gamepad2 />,
+  'The Dead Rabbits': <Rabbit />,
+};
+
+const experiences: Experience[] = EXPERIENCES.map((exp) => ({
+  ...exp,
+  icon: iconMap[exp.company],
+}));
+
+const education = EDUCATION;
+
+const resumeOptions = [
+  { value: 'ai-optimized', label: 'AI Optimized Resume' },
+  { value: 'traditional', label: 'Traditional Resume' },
 ];
 
-const education = [
-  {
-    school: 'ITT Technical Institute',
-    degree: 'Bachelor of Science - BS, Software Development',
-    period: 'September 2005 - June 2009',
-  },
-  {
-    school: 'Eastern Florida State College',
-    degree: 'Associate of Science - AS, CAD/CADD Drafting',
-    period: '2012 - 2014',
-  },
-];
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export function ExperiencePage() {
+  const [selectedResume, setSelectedResume] = useState<string>('');
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!selectedResume || isDownloading) return;
+
+    setIsDownloading(true);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/resume/download?type=${selectedResume}`
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to download resume');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download =
+        selectedResume === 'ai-optimized'
+          ? 'alan-spurlock-resume-ai-optimized.pdf'
+          : 'alan-spurlock-resume-traditional.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading resume:', error);
+      alert('Failed to download resume. Please try again.');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Header with gradient background */}
       <section className="py-8 md:py-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)]/5 via-transparent to-[var(--color-accent)]/5" />
         <Container size="lg" className="relative z-10">
-          <Heading
-            as="h1"
-            size="2xl"
-            className="mb-6 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent"
-          >
-            Experience
-          </Heading>
-          <Text size="lg" variant="muted" className="max-w-2xl leading-relaxed">
-            Over 17 years of building software, from game engines to enterprise
-            platforms. Here's my journey through tech.
-          </Text>
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+            <div className="flex-1">
+              <Heading
+                as="h1"
+                size="2xl"
+                className="mb-6 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] bg-clip-text text-transparent"
+              >
+                Experience
+              </Heading>
+              <Text
+                size="lg"
+                variant="muted"
+                className="max-w-2xl leading-relaxed"
+              >
+                Over 17 years of building software, from game engines to
+                enterprise platforms. Here's my journey through tech.
+              </Text>
+            </div>
+
+            {/* Resume Download Section */}
+            <Card
+              variant="elevated"
+              padding="lg"
+              className="md:min-w-[350px] hover:shadow-xl transition-all duration-300"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-accent)]/20 flex items-center justify-center">
+                  <Download className="w-5 h-5 text-[var(--color-primary)]" />
+                </div>
+                <Heading as="h3" size="md">
+                  Download Resume
+                </Heading>
+              </div>
+              <Text size="sm" variant="muted" className="mb-4">
+                Choose your preferred format
+              </Text>
+              <div className="space-y-3">
+                <Select
+                  placeholder="Select resume version..."
+                  options={resumeOptions}
+                  value={selectedResume}
+                  onValueChange={setSelectedResume}
+                  size="md"
+                />
+                <Button
+                  onClick={handleDownload}
+                  disabled={!selectedResume || isDownloading}
+                  className="w-full"
+                  size="md"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  {isDownloading ? 'Generating...' : 'Download PDF'}
+                </Button>
+              </div>
+            </Card>
+          </div>
         </Container>
       </section>
 

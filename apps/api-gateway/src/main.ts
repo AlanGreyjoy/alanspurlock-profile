@@ -9,6 +9,17 @@ import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Enable CORS for frontend communication
+  app.enableCors({
+    origin: [
+      'http://localhost:4200', // Frontend dev server
+      'http://localhost:5173', // Vite dev server
+      process.env.FRONTEND_URL || 'http://localhost:4200',
+    ],
+    credentials: true,
+  });
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;

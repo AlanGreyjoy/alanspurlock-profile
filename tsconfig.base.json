@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@alanspurlock-profile/spurlock-ui": ["libs/spurlock-ui/src/index.ts"]
+      "@alanspurlock-profile/spurlock-ui": ["libs/spurlock-ui/src/index.ts"],
+      "@alanspurlock-profile/resume-data": ["libs/resume-data/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

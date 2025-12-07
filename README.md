@@ -1,6 +1,7 @@
 # Alan Spurlock - Personal Website
 
 [![Build, Lint, and Deploy](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy.yml/badge.svg)](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy.yml)
+[![Deploy API to Railway](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/AlanGreyjoy/alanspurlock-profile/actions/workflows/deploy-api.yml)
 
 My personal website, portfolio, and resume — plus whatever random stuff I want to throw on it.
 
@@ -95,10 +96,14 @@ This project uses GitHub Actions for continuous integration and deployment:
 
 - **Automated Testing**: Linting runs on every push and PR
 - **Automated Builds**: Project builds automatically on every push and PR
-- **Automated Deployment**: Pushes to `main` automatically deploy to Netlify
+- **Frontend Deployment**: Pushes to `main` automatically deploy to Netlify
+- **API Deployment**: API changes on `main` automatically deploy to Railway
 - **Preview Deployments**: PRs get preview deployment links
 
-See [CI/CD Setup Instructions](.github/CICD_SETUP.md) for configuration details.
+### Setup Instructions
+
+- [Frontend CI/CD (Netlify)](.github/CICD_SETUP.md)
+- [API Deployment (Railway)](.github/RAILWAY_SETUP.md)
 
 ## License
 
