@@ -1,0 +1,31 @@
+[[services]]
+name = "api-gateway"
+dockerfile = "apps/api-gateway/Dockerfile"
+watch = [
+  "apps/api-gateway/**",
+  "libs/resume-data/**",
+  "package.json",
+  "pnpm-lock.yaml",
+  "pnpm-workspace.yaml"
+]
+
+[[services]]
+name = "frontend"
+dockerfile = "apps/frontend/Dockerfile"
+watch = [
+  "apps/frontend/**",
+  "libs/spurlock-ui/**",
+  "package.json",
+  "pnpm-lock.yaml",
+  "pnpm-workspace.yaml"
+]
+
+[[services]]
+name = "storybook"
+dockerfile = "libs/spurlock-ui/Dockerfile"
+watch = [
+  "libs/spurlock-ui/**",
+  "package.json",
+  "pnpm-lock.yaml",
+  "pnpm-workspace.yaml"
+]
