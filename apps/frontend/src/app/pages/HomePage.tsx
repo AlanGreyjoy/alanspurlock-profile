@@ -6,6 +6,7 @@ import {
 } from '@alanspurlock-profile/spurlock-ui';
 import { useState, useEffect } from 'react';
 import { PERSONAL_INFO, ROLES, STATS } from '../constants'; // Adjust path if needed
+import { CICDPipeline } from '../../components/CICDPipeline';
 
 export function HomePage() {
   const [text, setText] = useState('');
@@ -107,9 +108,8 @@ export function HomePage() {
 
         {/* VIBE CODED SECTION */}
         <section className="max-w-6xl mx-auto mb-32">
-          <div className="bg-gradient-to-br from-[#00d1b2]/10 via-[#ff0055]/5 to-transparent border-2 border-gray-900 rounded-2xl p-8 md:p-12">
+          <div className="bg-gradient-to-br from-[#00d1b2]/10 via-[#ff0055]/5 to-transparent border-2 border-gray-900 rounded-2xl p-8">
             <div className="flex items-start gap-4 mb-6">
-              <span className="text-4xl">✨</span>
               <div>
                 <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
                   100% Vibe Coded
@@ -133,7 +133,7 @@ export function HomePage() {
                   custom component library, and a complete CI/CD pipeline —
                   demonstrating modern development practices from end to end.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   <Link
                     to="/vibe-like-alan"
                     className="inline-flex items-center justify-center gap-2 h-14 px-8 text-lg font-bold border-2 border-[#00d1b2] bg-transparent text-[#00d1b2] hover:bg-[#00d1b2]/10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#00d1b2] rounded-md hover:-translate-y-0.5 transition-all"
@@ -160,6 +160,17 @@ export function HomePage() {
                     </svg>
                     View Source on GitHub
                   </a>
+                </div>
+
+                {/* CI/CD Pipeline Visualization */}
+                <div className="mt-8">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                    🔄 Our CI/CD Pipeline
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Click on any node to learn more about that stage
+                  </p>
+                  <CICDPipeline />
                 </div>
               </div>
             </div>
