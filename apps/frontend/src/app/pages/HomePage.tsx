@@ -129,9 +129,10 @@ export function HomePage() {
                   to keep everything on target and maintain quality.
                 </p>
                 <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                  This site is a full-stack showcase featuring React, NestJS, a
-                  custom component library, and a complete CI/CD pipeline —
-                  demonstrating modern development practices from end to end.
+                  This site is a full-stack showcase featuring React, NestJS,
+                  Prisma, PostgreSQL, a custom component library, and a complete
+                  CI/CD pipeline — demonstrating modern development practices
+                  from end to end.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   <Link
