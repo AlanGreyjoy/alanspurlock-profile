@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+
+# API Services
+
+- ALL API services should be in the src/services directory.
+- ALL API services should be named like use<ServiceName>Service.ts.
+- Services will export tanstack query hooks.
+  - The query hooks are isLoading, isError, and data.

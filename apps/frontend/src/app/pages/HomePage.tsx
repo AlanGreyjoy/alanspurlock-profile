@@ -108,8 +108,8 @@ export function HomePage() {
 
         {/* VIBE CODED SECTION */}
         <section className="max-w-6xl mx-auto mb-32">
-          <div className="bg-gradient-to-br from-[#00d1b2]/10 via-[#ff0055]/5 to-transparent border-2 border-gray-900 rounded-2xl p-8">
-            <div className="flex items-start gap-4 mb-6">
+          <div className="bg-gradient-to-br from-[#00d1b2]/10 via-[#ff0055]/5 to-transparent border-2 border-gray-900 rounded-2xl p-6">
+            <div className="flex items-start gap-4">
               <div>
                 <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
                   100% Vibe Coded

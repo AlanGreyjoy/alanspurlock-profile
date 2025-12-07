@@ -25,18 +25,26 @@ import {
   Download,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { useState } from 'react';
-import { EXPERIENCES, EDUCATION } from '../../lib/resume-data';
+import { useState, useMemo } from 'react';
+import {
+  useExperiences,
+  useEducation,
+  useDownloadResume,
+  useResumeDownloadStats,
+  type ResumeType,
+} from '../../services';
 
-interface Experience {
+interface ExperienceWithIcon {
+  id: string;
   company: string;
   role: string;
   period: string;
-  location?: string;
-  description?: string;
+  location?: string | null;
+  description?: string | null;
   highlights: string[];
-  technologies?: string[];
+  technologies: string[];
   icon?: ReactNode;
+  order: number;
 }
 
 // Map icons to experiences
@@ -52,57 +60,97 @@ const iconMap: Record<string, ReactNode> = {
   'The Dead Rabbits': <Rabbit />,
 };
 
-const experiences: Experience[] = EXPERIENCES.map((exp) => ({
-  ...exp,
-  icon: iconMap[exp.company],
-}));
-
-const education = EDUCATION;
-
 const resumeOptions = [
-  { value: 'ai-optimized', label: 'AI Optimized Resume' },
-  { value: 'traditional', label: 'Traditional Resume' },
+  { value: 'ai-optimized' as const, label: 'AI Optimized Resume' },
+  { value: 'traditional' as const, label: 'Traditional Resume' },
 ];
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-
 export function ExperiencePage() {
-  const [selectedResume, setSelectedResume] = useState<string>('');
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [selectedResume, setSelectedResume] = useState<ResumeType | ''>('');
 
-  const handleDownload = async () => {
+  // Fetch data using TanStack Query
+  const {
+    data: experiencesData,
+    isLoading: isLoadingExperiences,
+    error: experiencesError,
+  } = useExperiences();
+
+  const {
+    data: educationData,
+    isLoading: isLoadingEducation,
+    error: educationError,
+  } = useEducation();
+
+  // Map icons to experiences
+  const experiences = useMemo<ExperienceWithIcon[]>(() => {
+    if (!experiencesData) return [];
+    return experiencesData.map((exp) => ({
+      ...exp,
+      icon: iconMap[exp.company],
+    }));
+  }, [experiencesData]);
+
+  // Resume download mutation
+  const { mutate: downloadResume, isPending: isDownloading } =
+    useDownloadResume();
+
+  // Fetch download stats
+  const { data: downloadStats } = useResumeDownloadStats();
+
+  const isLoading = isLoadingExperiences || isLoadingEducation;
+  const error = experiencesError || educationError;
+
+  const handleResumeTypeChange = (value: string) => {
+    setSelectedResume(value as ResumeType | '');
+  };
+
+  const handleDownload = () => {
     if (!selectedResume || isDownloading) return;
 
-    setIsDownloading(true);
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/resume/download?type=${selectedResume}`
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to download resume');
+    downloadResume(
+      { type: selectedResume },
+      {
+        onError: (error) => {
+          console.error('Error downloading resume:', error);
+          alert('Failed to download resume. Please try again.');
+        },
       }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download =
-        selectedResume === 'ai-optimized'
-          ? 'alan-spurlock-resume-ai-optimized.pdf'
-          : 'alan-spurlock-resume-traditional.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error downloading resume:', error);
-      alert('Failed to download resume. Please try again.');
-    } finally {
-      setIsDownloading(false);
-    }
+    );
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Container size="lg">
+          <Card variant="elevated" padding="lg" className="text-center">
+            <Heading as="h2" size="lg" className="mb-4">
+              Loading...
+            </Heading>
+            <Text color="muted">Fetching experience and education data</Text>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Container size="lg">
+          <Card variant="elevated" padding="lg" className="text-center">
+            <Heading as="h2" size="lg" className="mb-4 text-red-600">
+              Error
+            </Heading>
+            <Text color="muted">
+              {error instanceof Error ? error.message : 'Failed to load data'}
+            </Text>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -121,12 +169,70 @@ export function ExperiencePage() {
               </Heading>
               <Text
                 size="lg"
-                variant="muted"
+                color="muted"
                 className="max-w-2xl leading-relaxed"
               >
                 Over 17 years of building software, from game engines to
                 enterprise platforms. Here's my journey through tech.
               </Text>
+
+              {/* Quick Stats */}
+              <div className="flex flex-wrap gap-3 mt-6">
+                <Badge
+                  variant="outline"
+                  size="md"
+                  className="px-4 py-2 bg-gradient-to-r from-[var(--color-primary)]/10 to-[var(--color-primary)]/5 border-[var(--color-primary)]/20"
+                >
+                  <span className="font-semibold text-[var(--color-primary)]">
+                    17+
+                  </span>
+                  <span className="ml-1.5 text-[var(--color-text-secondary)]">
+                    Years Experience
+                  </span>
+                </Badge>
+
+                <Badge
+                  variant="outline"
+                  size="md"
+                  className="px-4 py-2 bg-gradient-to-r from-[var(--color-accent)]/10 to-[var(--color-accent)]/5 border-[var(--color-accent)]/20"
+                >
+                  <span className="font-semibold text-[var(--color-accent)]">
+                    {experiences.length}
+                  </span>
+                  <span className="ml-1.5 text-[var(--color-text-secondary)]">
+                    Companies
+                  </span>
+                </Badge>
+
+                <Badge
+                  variant="outline"
+                  size="md"
+                  className="px-4 py-2 bg-gradient-to-r from-[var(--color-success)]/10 to-[var(--color-success)]/5 border-[var(--color-success)]/20"
+                >
+                  <span className="font-semibold text-[var(--color-success)]">
+                    {educationData?.length || 2}
+                  </span>
+                  <span className="ml-1.5 text-[var(--color-text-secondary)]">
+                    Degrees
+                  </span>
+                </Badge>
+
+                <Badge
+                  variant="outline"
+                  size="md"
+                  className="px-4 py-2 bg-gradient-to-r from-[var(--color-info)]/10 to-[var(--color-info)]/5 border-[var(--color-info)]/20"
+                >
+                  <span className="font-semibold text-[var(--color-info)]">
+                    {experiences.reduce(
+                      (acc, exp) => acc + exp.technologies.length,
+                      0
+                    )}
+                  </span>
+                  <span className="ml-1.5 text-[var(--color-text-secondary)]">
+                    Technologies
+                  </span>
+                </Badge>
+              </div>
             </div>
 
             {/* Resume Download Section */}
@@ -143,15 +249,46 @@ export function ExperiencePage() {
                   Download Resume
                 </Heading>
               </div>
-              <Text size="sm" variant="muted" className="mb-4">
+              <Text size="sm" color="muted" className="mb-4">
                 Choose your preferred format
               </Text>
+
+              {/* Download Stats */}
+              {downloadStats && (
+                <div className="mb-4 p-3 rounded-lg bg-gradient-to-r from-[var(--color-primary)]/5 to-[var(--color-accent)]/5 border border-[var(--color-border-soft)]">
+                  <div className="flex items-center justify-between mb-2">
+                    <Text size="xs" weight="semibold" color="muted">
+                      Total Downloads
+                    </Text>
+                    <Badge variant="outline" size="sm">
+                      {downloadStats.total.toLocaleString()}
+                    </Badge>
+                  </div>
+                  {downloadStats.total > 0 && (
+                    <div className="flex gap-2 text-xs">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[var(--color-primary)]">●</span>
+                        <Text size="xs" color="muted">
+                          AI: {downloadStats.aiOptimized}
+                        </Text>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="text-[var(--color-accent)]">●</span>
+                        <Text size="xs" color="muted">
+                          Traditional: {downloadStats.traditional}
+                        </Text>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className="space-y-3">
                 <Select
                   placeholder="Select resume version..."
                   options={resumeOptions}
                   value={selectedResume}
-                  onValueChange={setSelectedResume}
+                  onValueChange={handleResumeTypeChange}
                   size="md"
                 />
                 <Button
@@ -212,7 +349,7 @@ export function ExperiencePage() {
 
                   {exp.description && (
                     <Text
-                      variant="muted"
+                      color="muted"
                       className="mb-6 leading-relaxed text-base"
                     >
                       {exp.description}
@@ -231,7 +368,7 @@ export function ExperiencePage() {
                           </span>
                           <Text
                             size="sm"
-                            variant="muted"
+                            color="muted"
                             className="leading-relaxed"
                           >
                             {highlight}
@@ -262,12 +399,12 @@ export function ExperiencePage() {
             <Heading as="h2" size="xl" className="mb-3">
               Education
             </Heading>
-            <Text variant="muted" className="text-base">
+            <Text color="muted" className="text-base">
               Academic foundation in software development and design
             </Text>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            {education.map((edu, index) => (
+            {educationData?.map((edu, index) => (
               <Card
                 key={index}
                 variant="elevated"
@@ -291,7 +428,7 @@ export function ExperiencePage() {
                     <Heading as="h3" size="md" className="mb-2 leading-snug">
                       {edu.degree}
                     </Heading>
-                    <Text variant="muted" className="mb-2 font-medium">
+                    <Text color="muted" className="mb-2 font-medium">
                       {edu.school}
                     </Text>
                     <Badge variant="outline" size="sm">

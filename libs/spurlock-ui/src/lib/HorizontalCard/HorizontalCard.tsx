@@ -122,3 +122,4 @@ export const HorizontalCard = forwardRef<HTMLDivElement, HorizontalCardProps>(
 HorizontalCard.displayName = 'HorizontalCard';
 
 export default HorizontalCard;
+
