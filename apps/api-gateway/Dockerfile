@@ -9,7 +9,6 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps/api-gateway/package.json ./apps/api-gateway/
 COPY libs/resume-data/package.json ./libs/resume-data/
 
 # Install dependencies
