@@ -43,8 +43,6 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Deploy ${{ matrix.service.name }} to Railway
-        run: |
-          cd ${{ matrix.service.root }}
-          railway up --service ${{ matrix.service.name }}
+        run: railway up --service ${{ matrix.service.name }}
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
