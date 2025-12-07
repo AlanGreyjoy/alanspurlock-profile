@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,6 +38,12 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
+      - name: Verify lockfile
+        run: |
+          echo "Checking for serve in package.json and lockfile..."
+          grep '"serve"' package.json || echo "serve not found in package.json"
+          grep -A 2 "serve:" pnpm-lock.yaml || echo "serve not found in lockfile"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
