@@ -20,6 +20,8 @@ COPY . .
 # Build the application
 RUN pnpm build:api
 
+# Note: Seed file will be run using Prisma's db seed command
+
 # Production stage
 FROM node:20-slim
 
@@ -76,9 +78,22 @@ WORKDIR /app
 COPY --from=builder /app/dist/apps/api-gateway ./dist/apps/api-gateway
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/prisma ./prisma
 
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["node", "dist/apps/api-gateway/main.js"]
+# Create startup script that runs migrations, seeds, then starts the app
+RUN echo '#!/bin/sh\n\
+set -e\n\
+echo "Running database migrations..."\n\
+npx prisma migrate deploy\n\
+echo "Migrations completed."\n\
+echo "Running database seed..."\n\
+npx prisma db seed || echo "Seed completed (or skipped)"\n\
+echo "Starting application..."\n\
+exec node dist/apps/api-gateway/main.js' > /app/start.sh && \
+    chmod +x /app/start.sh
+
+# Start the application (runs migrations first)
+CMD ["/app/start.sh"]
