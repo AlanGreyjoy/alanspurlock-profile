@@ -17,7 +17,8 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
-# Build Storybook
+# Build Storybook (increase memory limit for large builds)
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN pnpm build:storybook
 
 # Production stage
