@@ -20,14 +20,23 @@ const config: StorybookConfig = {
     const { default: tailwindcss } = await import('tailwindcss');
     const { default: autoprefixer } = await import('autoprefixer');
 
-    return {
+    // Merge configs carefully to avoid breaking Storybook's internal resolution
+    const mergedConfig = {
       ...config,
       css: {
+        ...config.css,
         postcss: {
-          plugins: [tailwindcss(), autoprefixer()],
+          ...config.css?.postcss,
+          plugins: [
+            ...(config.css?.postcss?.plugins || []),
+            tailwindcss(),
+            autoprefixer(),
+          ],
         },
       },
     };
+
+    return mergedConfig;
   },
 };
 
