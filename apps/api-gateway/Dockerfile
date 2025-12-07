@@ -8,7 +8,7 @@ RUN npm install -g pnpm@10.20.0
 WORKDIR /app
 
 # Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 COPY libs/resume-data/package.json ./libs/resume-data/
 
 # Install dependencies

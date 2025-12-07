@@ -5,8 +5,7 @@ watchPatterns = [
   "apps/api-gateway/**",
   "libs/resume-data/**",
   "package.json",
-  "pnpm-lock.yaml",
-  "pnpm-workspace.yaml"
+  "pnpm-lock.yaml"
 ]
 
 [services.frontend]
@@ -16,8 +15,7 @@ watchPatterns = [
   "apps/frontend/**",
   "libs/spurlock-ui/**",
   "package.json",
-  "pnpm-lock.yaml",
-  "pnpm-workspace.yaml"
+  "pnpm-lock.yaml"
 ]
 
 [services.storybook]
@@ -26,6 +24,5 @@ dockerfilePath = "libs/spurlock-ui/Dockerfile"
 watchPatterns = [
   "libs/spurlock-ui/**",
   "package.json",
-  "pnpm-lock.yaml",
-  "pnpm-workspace.yaml"
+  "pnpm-lock.yaml"
 ]
