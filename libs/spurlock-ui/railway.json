@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "cd ../.. && pnpm install --frozen-lockfile && pnpm build:storybook"
+  },
+  "deploy": {
+    "startCommand": "npx serve ../../dist/storybook/spurlock-ui -s -p $PORT",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}

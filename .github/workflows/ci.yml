@@ -1,17 +1,16 @@
-name: Deploy API to Railway
+name: CI
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
-    paths:
-      - 'apps/api-gateway/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-  workflow_dispatch: # Allow manual trigger
 
 jobs:
-  deploy-api:
+  lint-and-build:
+    name: Lint & Build All Projects
     runs-on: ubuntu-latest
 
     steps:
@@ -44,13 +43,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        run: pnpm lint
+
       - name: Build API
         run: pnpm build:api
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
+      - name: Build Frontend
+        run: pnpm build
 
-      - name: Deploy to Railway
-        run: railway up --service api-gateway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Build Storybook
+        run: pnpm build:storybook
+
+      - name: Check for build artifacts
+        run: |
+          echo "Checking build outputs..."
+          ls -la dist/apps/api-gateway/
+          ls -la dist/apps/frontend/
+          ls -la dist/storybook/spurlock-ui/

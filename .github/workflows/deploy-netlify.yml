@@ -1,15 +1,25 @@
-name: Build, Lint, and Deploy
+name: Deploy Frontend to Netlify
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/frontend/**'
+      - 'libs/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
   pull_request:
     branches:
       - main
+    paths:
+      - 'apps/frontend/**'
+      - 'libs/**'
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
+    name: Deploy to Netlify
     runs-on: ubuntu-latest
 
     steps:
@@ -42,14 +52,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
-
-      - name: Build
+      - name: Build Frontend
         run: pnpm build
 
       - name: Deploy to Netlify
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './dist/apps/frontend'

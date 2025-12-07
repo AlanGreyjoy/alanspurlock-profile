@@ -1,6 +1,6 @@
-# CI/CD Setup Instructions
+# Netlify Deployment Setup Instructions
 
-This project uses GitHub Actions to automatically build, lint, and deploy to Netlify.
+This project uses GitHub Actions to automatically deploy the frontend to Netlify.
 
 ## GitHub Secrets Required
 
@@ -44,9 +44,10 @@ You need to add the following secrets to your GitHub repository:
 - ✅ Builds the project
 - ✅ Deploys to production on Netlify
 
-## Workflow File
+## Workflow Files
 
-The workflow is located at: `.github/workflows/deploy.yml`
+- **CI Workflow**: `.github/workflows/ci.yml` - Runs linting and builds on all PRs
+- **Netlify Deployment**: `.github/workflows/deploy-netlify.yml` - Deploys frontend to Netlify
 
 ## Testing
 
