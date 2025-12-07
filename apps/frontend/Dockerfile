@@ -9,7 +9,6 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
-COPY apps/frontend/package.json ./apps/frontend/
 COPY libs/spurlock-ui/package.json ./libs/spurlock-ui/
 
 # Install dependencies

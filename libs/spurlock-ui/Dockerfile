@@ -10,7 +10,6 @@ WORKDIR /app
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 COPY libs/spurlock-ui/package.json ./libs/spurlock-ui/
-COPY apps/frontend/package.json ./apps/frontend/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
