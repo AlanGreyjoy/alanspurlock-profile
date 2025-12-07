@@ -38,27 +38,8 @@ const config: StorybookConfig = {
         ...config.resolve,
         // Ensure Storybook packages are resolved correctly
         dedupe: ['react', 'react-dom', ...(config.resolve?.dedupe || [])],
-      },
-      build: {
-        ...config.build,
-        rollupOptions: {
-          ...config.build?.rollupOptions,
-          // Ensure Storybook packages are NOT externalized
-          external: (id) => {
-            // Don't externalize any Storybook packages
-            if (id.startsWith('@storybook/')) {
-              return false;
-            }
-            // Use default externalization for other packages if configured
-            if (typeof config.build?.rollupOptions?.external === 'function') {
-              return config.build.rollupOptions.external(id);
-            }
-            if (Array.isArray(config.build?.rollupOptions?.external)) {
-              return config.build.rollupOptions.external.includes(id);
-            }
-            return false;
-          },
-        },
+        // Ensure proper module resolution for Storybook packages
+        preserveSymlinks: false,
       },
     };
 

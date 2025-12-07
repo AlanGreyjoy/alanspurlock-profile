@@ -7,8 +7,9 @@ RUN npm install -g pnpm@10.20.0
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files and pnpm config
 COPY package.json pnpm-lock.yaml ./
+COPY .npmrc ./.npmrc
 COPY libs/spurlock-ui/package.json ./libs/spurlock-ui/
 
 # Install dependencies
