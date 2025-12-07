@@ -1,9 +1,4 @@
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
 import type { StorybookConfig } from '@storybook/react-vite';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
   stories: [
@@ -21,7 +16,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: true,
   },
-  async viteFinal(config, { configType }) {
+  async viteFinal(config) {
     const { default: tailwindcss } = await import('tailwindcss');
     const { default: autoprefixer } = await import('autoprefixer');
 
@@ -30,7 +25,7 @@ const config: StorybookConfig = {
       css: {
         postcss: {
           plugins: [
-            tailwindcss(join(__dirname, '../tailwind.config.mjs')),
+            tailwindcss(),
             autoprefixer(),
           ],
         },
