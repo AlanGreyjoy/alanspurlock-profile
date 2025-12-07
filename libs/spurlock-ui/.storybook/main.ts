@@ -30,7 +30,7 @@ const config: StorybookConfig = {
       css: {
         postcss: {
           plugins: [
-            tailwindcss(join(__dirname, '../tailwind.config.js')),
+            tailwindcss(join(__dirname, '../tailwind.config.mjs')),
             autoprefixer(),
           ],
         },
