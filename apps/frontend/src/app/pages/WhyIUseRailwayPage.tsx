@@ -1,5 +1,5 @@
 import { Container } from '@alanspurlock-profile/spurlock-ui';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import {
   ReactFlow,
   Background,
@@ -15,6 +15,7 @@ import {
   Handle,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import dagre from 'dagre';
 
 // Custom node component for Railway features
 const FeatureNode = ({
@@ -39,12 +40,46 @@ const nodeTypes = {
   feature: FeatureNode,
 };
 
-// Deployment workflow nodes
-const deploymentNodes: Node[] = [
+// Dagre layout function
+const getLayoutedElements = (
+  nodes: Node[],
+  edges: Edge[],
+  direction: 'TB' | 'LR' = 'TB'
+) => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: direction, nodesep: 100, ranksep: 150 });
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: 250, height: 120 });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const layoutedNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    return {
+      ...node,
+      position: {
+        x: nodeWithPosition.x - 125,
+        y: nodeWithPosition.y - 60,
+      },
+    };
+  });
+
+  return { nodes: layoutedNodes, edges };
+};
+
+// Deployment workflow nodes (positions will be calculated by dagre)
+const initialDeploymentNodes: Node[] = [
   {
     id: '1',
     type: 'feature',
-    position: { x: 250, y: 0 },
+    position: { x: 0, y: 0 },
     data: {
       label: 'Git Push',
       description: 'Push code to GitHub',
@@ -54,7 +89,7 @@ const deploymentNodes: Node[] = [
   {
     id: '2',
     type: 'feature',
-    position: { x: 250, y: 120 },
+    position: { x: 0, y: 0 },
     data: {
       label: 'Auto Deploy',
       description: 'Railway detects changes instantly',
@@ -64,7 +99,7 @@ const deploymentNodes: Node[] = [
   {
     id: '3',
     type: 'feature',
-    position: { x: 100, y: 240 },
+    position: { x: 0, y: 0 },
     data: {
       label: 'Build',
       description: 'Docker image built automatically',
@@ -74,7 +109,7 @@ const deploymentNodes: Node[] = [
   {
     id: '4',
     type: 'feature',
-    position: { x: 400, y: 240 },
+    position: { x: 0, y: 0 },
     data: {
       label: 'Deploy',
       description: 'Zero-downtime deployment',
@@ -84,7 +119,7 @@ const deploymentNodes: Node[] = [
   {
     id: '5',
     type: 'feature',
-    position: { x: 250, y: 360 },
+    position: { x: 0, y: 0 },
     data: {
       label: 'Live!',
       description: 'App is live with SSL',
@@ -93,11 +128,12 @@ const deploymentNodes: Node[] = [
   },
 ];
 
-const deploymentEdges: Edge[] = [
+const initialDeploymentEdges: Edge[] = [
   {
     id: 'e1-2',
     source: '1',
     target: '2',
+    type: 'step',
     animated: true,
     style: { stroke: '#00d1b2', strokeWidth: 3 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
@@ -106,6 +142,7 @@ const deploymentEdges: Edge[] = [
     id: 'e2-3',
     source: '2',
     target: '3',
+    type: 'step',
     animated: true,
     style: { stroke: '#00d1b2', strokeWidth: 3 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
@@ -114,6 +151,7 @@ const deploymentEdges: Edge[] = [
     id: 'e2-4',
     source: '2',
     target: '4',
+    type: 'step',
     animated: true,
     style: { stroke: '#00d1b2', strokeWidth: 3 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
@@ -122,6 +160,7 @@ const deploymentEdges: Edge[] = [
     id: 'e3-5',
     source: '3',
     target: '5',
+    type: 'step',
     animated: true,
     style: { stroke: '#00d1b2', strokeWidth: 3 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
@@ -130,14 +169,15 @@ const deploymentEdges: Edge[] = [
     id: 'e4-5',
     source: '4',
     target: '5',
+    type: 'step',
     animated: true,
     style: { stroke: '#00d1b2', strokeWidth: 3 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
   },
 ];
 
-// Railway ecosystem nodes
-const ecosystemNodes: Node[] = [
+// Railway ecosystem nodes (manual circular layout around center)
+const initialEcosystemNodes: Node[] = [
   {
     id: 'center',
     type: 'feature',
@@ -210,42 +250,60 @@ const ecosystemNodes: Node[] = [
   },
 ];
 
-const ecosystemEdges: Edge[] = [
+const initialEcosystemEdges: Edge[] = [
   {
     id: 'center-postgres',
     source: 'center',
     target: 'postgres',
-    style: { stroke: '#ff0055', strokeWidth: 2 },
+    type: 'smoothstep',
+    animated: true,
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-redis',
     source: 'center',
     target: 'redis',
-    style: { stroke: '#ff0055', strokeWidth: 2 },
+    type: 'smoothstep',
+    animated: true,
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-docker',
     source: 'center',
     target: 'docker',
-    style: { stroke: '#ff0055', strokeWidth: 2 },
+    type: 'smoothstep',
+    animated: true,
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-monitoring',
     source: 'center',
     target: 'monitoring',
-    style: { stroke: '#ff0055', strokeWidth: 2 },
+    type: 'smoothstep',
+    animated: true,
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-env',
     source: 'center',
     target: 'env',
-    style: { stroke: '#ff0055', strokeWidth: 2 },
+    type: 'smoothstep',
+    animated: true,
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-scaling',
     source: 'center',
     target: 'scaling',
-    style: { stroke: '#ff0055', strokeWidth: 2 },
+    type: 'smoothstep',
+    animated: true,
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
 ];
 
@@ -254,21 +312,40 @@ export function WhyIUseRailwayPage() {
     'deployment'
   );
 
-  const [deploymentNodesState, , onDeploymentNodesChange] =
-    useNodesState(deploymentNodes);
-  const [deploymentEdgesState, , onDeploymentEdgesChange] =
-    useEdgesState(deploymentEdges);
+  // Apply dagre layout to deployment nodes only
+  const deploymentLayout = useMemo(
+    () => getLayoutedElements(initialDeploymentNodes, initialDeploymentEdges),
+    []
+  );
 
-  const [ecosystemNodesState, , onEcosystemNodesChange] =
-    useNodesState(ecosystemNodes);
-  const [ecosystemEdgesState, , onEcosystemEdgesChange] =
-    useEdgesState(ecosystemEdges);
+  const [deploymentNodesState, , onDeploymentNodesChange] = useNodesState(
+    deploymentLayout.nodes
+  );
+  const [deploymentEdgesState, , onDeploymentEdgesChange] = useEdgesState(
+    deploymentLayout.edges
+  );
+
+  // Ecosystem uses manual circular layout
+  const [ecosystemNodesState, , onEcosystemNodesChange] = useNodesState(
+    initialEcosystemNodes
+  );
+  const [ecosystemEdgesState, , onEcosystemEdgesChange] = useEdgesState(
+    initialEcosystemEdges
+  );
 
   return (
     <div className="w-full pt-12 md:pt-24 pb-20">
       <Container size="lg">
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto text-left mb-16">
+          <div className="mb-8 rounded-xl overflow-hidden border-2 border-gray-900 shadow-xl">
+            <img
+              src="/images/railway-ss.png"
+              alt="Railway Dashboard Screenshot"
+              className="w-full h-auto"
+            />
+          </div>
+
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-[1.1] mb-8 tracking-tight">
             Why I Use <span className="text-[#00d1b2]">Railway</span> 🚂
           </h1>
