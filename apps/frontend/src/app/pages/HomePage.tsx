@@ -75,14 +75,14 @@ export function HomePage() {
               to="/experience"
               className="inline-flex items-center justify-center px-8 py-4 bg-[#ff0055] text-white font-bold text-lg rounded-lg shadow-lg hover:bg-[#e6004c] hover:shadow-xl transition-all transform hover:-translate-y-1"
             >
-              See my Work
+              See my work
             </Link>
 
             <Link
               to="/contact"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 border-2 border-gray-900 font-bold text-lg rounded-lg hover:bg-gray-50 transition-all transform hover:-translate-y-1"
             >
-              Get in Touch
+              Get in touch
             </Link>
           </div>
 
