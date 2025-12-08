@@ -289,6 +289,8 @@ tsconfig.tsbuildinfo
 *.db-shm
 *.db-wal
 *.sql
+# Allow Prisma migration SQL files
+!prisma/migrations/**/migration.sql
 data.db
 local.db
 dev.db
