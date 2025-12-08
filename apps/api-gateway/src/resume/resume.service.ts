@@ -265,14 +265,19 @@ export class ResumeService {
       experiences.forEach((exp, index) => {
         if (index > 0) doc.moveDown(1);
 
+        const leftMargin = 50; // Reset to page margin for each experience
+
+        doc.x = leftMargin;
         doc.fontSize(12).font('Helvetica-Bold').fillColor(BLACK).text(exp.role);
 
+        doc.x = leftMargin;
         doc
           .fontSize(11)
           .font('Helvetica-Bold')
           .fillColor(PRIMARY)
           .text(exp.company);
 
+        doc.x = leftMargin;
         doc
           .fontSize(10)
           .font('Helvetica-Oblique')
@@ -283,6 +288,7 @@ export class ResumeService {
 
         if (exp.description) {
           doc.moveDown(0.4);
+          doc.x = leftMargin;
           doc
             .fontSize(10)
             .font('Helvetica')
@@ -292,27 +298,31 @@ export class ResumeService {
         if (exp.highlights && exp.highlights.length > 0) {
           doc.moveDown(0.4);
           exp.highlights.forEach((highlight: string) => {
+            doc.x = leftMargin;
             doc
               .fontSize(10)
               .font('Helvetica')
               .fillColor(PRIMARY)
-              .text('•', { continued: true, indent: 10 })
+              .text('•', leftMargin + 10, doc.y, { continued: true })
               .fillColor(BLACK)
-              .text(` ${highlight}`, { indent: 20 });
+              .text(` ${highlight}`);
           });
         }
 
         if (exp.technologies && exp.technologies.length > 0) {
           doc.moveDown(0.4);
+          doc.x = leftMargin;
           doc
-            .rect(doc.x, doc.y, doc.page.width - 100, 25)
+            .rect(leftMargin, doc.y, doc.page.width - 100, 25)
             .fillAndStroke('#f0f9ff', '#e1e8ed');
 
           doc
             .fontSize(9)
             .font('Helvetica-Bold')
             .fillColor(SECONDARY)
-            .text('Technologies: ', doc.x + 10, doc.y + 8, { continued: true })
+            .text('Technologies: ', leftMargin + 10, doc.y + 8, {
+              continued: true,
+            })
             .font('Helvetica')
             .fillColor(BLACK)
             .text(exp.technologies.join(' • '));

@@ -17,7 +17,7 @@ async function main() {
   await prisma.personalInfo.create({
     data: {
       name: 'Alan Spurlock',
-      title: 'Passionate Leader | Rare Disney Items Collector',
+      title: 'Passionate Leader | Technology Innovator',
       subtitle:
         'Seasoned technology leader with extensive experience leading teams, consulting, and building innovative solutions in startup environments and SaaS platforms.',
       email: 'ams07141986@gmail.com',
