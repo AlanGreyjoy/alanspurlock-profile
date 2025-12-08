@@ -100,16 +100,33 @@ body {
   outline-offset: 2px;
 }
 
-/* Scrollbar styling - Hide native scrollbars since R3F ScrollControls takes over or mimics it */
+/* Scrollbar styling - Modern, visible scrollbar */
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 12px;
   background: transparent;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: white;
+  border-radius: 10px;
+  margin: 4px 0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: rgba(255, 0, 85, 0.4);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 85, 0.6);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 0, 85, 0.4) white;
 }
