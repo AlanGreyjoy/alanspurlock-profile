@@ -17,6 +17,8 @@ const navItems = [
   { path: '/contact', label: 'Contact' },
 ];
 
+console.log('VITE_STORYBOOK_URL', import.meta.env.VITE_STORYBOOK_URL);
+
 export function MainLayout() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-pink-500 selection:text-white">
