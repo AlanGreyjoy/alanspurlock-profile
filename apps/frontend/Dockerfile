@@ -17,6 +17,14 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
+# Accept build arguments for Vite environment variables
+ARG VITE_API_URL
+ARG VITE_STORYBOOK_URL
+
+# Make them available as environment variables during build
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_STORYBOOK_URL=$VITE_STORYBOOK_URL
+
 # Build the application
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN pnpm build
