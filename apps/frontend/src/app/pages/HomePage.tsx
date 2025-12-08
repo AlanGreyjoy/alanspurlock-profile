@@ -122,7 +122,7 @@ export function HomePage() {
                     17 years of experience
                   </span>
                   , I know what works. I leverage AI assistants like Claude,
-                  Code, and Gemini in{' '}
+                  Codex, and Gemini in{' '}
                   <span className="font-semibold">Cursor IDE</span>, guided by
                   custom{' '}
                   <span className="font-semibold">constitutions and rules</span>{' '}
