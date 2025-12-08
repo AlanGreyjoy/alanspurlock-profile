@@ -19,6 +19,7 @@ async function bootstrap() {
   const allowedOrigins = [
     'http://localhost:4200', // Frontend dev server
     'http://localhost:5173', // Vite dev server
+    'https://alanspurlock.com',
   ];
 
   // Add production URLs from environment variables

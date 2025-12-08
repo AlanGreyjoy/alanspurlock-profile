@@ -3,7 +3,6 @@ import {
   ReactFlow,
   Controls,
   Background,
-  BackgroundVariant,
   Node,
   Edge,
   Position,
@@ -13,10 +12,35 @@ import {
   applyNodeChanges,
   OnNodesChange,
   OnEdgesChange,
+  MarkerType,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Dialog } from '@alanspurlock-profile/spurlock-ui';
 import dagre from 'dagre';
+
+// Custom node component matching Railway page style
+const PipelineNode = ({
+  data,
+}: {
+  data: { label: string; icon: string; bgColor: string; description: string };
+}) => {
+  return (
+    <div className="bg-white border-2 border-gray-900 rounded-lg p-4 min-w-[220px] shadow-lg hover:shadow-xl transition-shadow cursor-pointer">
+      <Handle type="target" position={Position.Top} />
+      <div className="flex items-center gap-2 mb-2">
+        <div
+          className="w-8 h-8 rounded flex items-center justify-center text-lg font-bold flex-shrink-0"
+          style={{ background: data.bgColor, color: 'white' }}
+        >
+          {data.icon}
+        </div>
+        <h4 className="font-bold text-sm text-gray-900">{data.label}</h4>
+      </div>
+      <p className="text-xs text-gray-600 leading-tight">{data.description}</p>
+      <Handle type="source" position={Position.Bottom} />
+    </div>
+  );
+};
 
 // Custom diamond-shaped node for conditional logic
 function DiamondNode({ data, selected }: NodeProps) {
@@ -32,7 +56,7 @@ function DiamondNode({ data, selected }: NodeProps) {
         position: 'relative',
       }}
     >
-      {/* Top vertex handle - positioned BEFORE rotation */}
+      {/* Top vertex handle */}
       <Handle
         type="target"
         position={Position.Top}
@@ -84,6 +108,7 @@ function DiamondNode({ data, selected }: NodeProps) {
 
       {/* The actual diamond shape */}
       <div
+        className="shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
         style={{
           width: '100%',
           height: '100%',
@@ -93,8 +118,6 @@ function DiamondNode({ data, selected }: NodeProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: selected ? '0 0 0 3px #00d1b2' : 'none',
         }}
       >
         <div
@@ -116,6 +139,7 @@ function DiamondNode({ data, selected }: NodeProps) {
 }
 
 const nodeTypes = {
+  pipeline: PipelineNode,
   diamond: DiamondNode,
 };
 
@@ -377,147 +401,98 @@ const getLayoutedElements = (
 const initialNodes: Node[] = [
   {
     id: 'commit',
-    type: 'input',
-    data: { label: '📝 Git Push' },
-    position: { x: 0, y: 0 }, // Will be calculated by dagre
-    style: {
-      background: '#00d1b2',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '12px 20px',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      minWidth: '140px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Git Push',
+      icon: '📝',
+      bgColor: '#00d1b2',
+      description: 'Push code to GitHub',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'githubCI',
-    data: { label: '🔀 GitHub Actions CI' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#24292e',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '12px 20px',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      minWidth: '200px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'GitHub Actions CI',
+      icon: '🔀',
+      bgColor: '#24292e',
+      description: 'Trigger CI workflow',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'install',
-    data: { label: '📦 Install Dependencies' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#8b5cf6',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '180px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Install Dependencies',
+      icon: '📦',
+      bgColor: '#8b5cf6',
+      description: 'Install pnpm packages',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'prisma',
-    data: { label: '🗄️ Prisma Generate' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#8b5cf6',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '180px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Prisma Generate',
+      icon: '🗄️',
+      bgColor: '#8b5cf6',
+      description: 'Generate DB client',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'lint',
-    data: { label: '🔍 Lint' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#8b5cf6',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '120px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Lint',
+      icon: '🔍',
+      bgColor: '#8b5cf6',
+      description: 'Check code quality',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'buildApi',
-    data: { label: '🔨 Build API' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#ff0055',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '140px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Build API',
+      icon: '🔨',
+      bgColor: '#ff0055',
+      description: 'Compile NestJS API',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'buildFrontend',
-    data: { label: '🔨 Build Frontend' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#ff0055',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '160px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Build Frontend',
+      icon: '🔨',
+      bgColor: '#ff0055',
+      description: 'Bundle React app',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'buildStorybook',
-    data: { label: '🔨 Build Storybook' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#ff0055',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '180px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Build Storybook',
+      icon: '🔨',
+      bgColor: '#ff0055',
+      description: 'Build component docs',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
@@ -529,132 +504,86 @@ const initialNodes: Node[] = [
   },
   {
     id: 'ciFailed',
-    type: 'output',
-    data: { label: '❌ CI Failed' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#dc2626',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '140px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'CI Failed',
+      icon: '❌',
+      bgColor: '#dc2626',
+      description: 'Stop deployment',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'githubDeploy',
-    data: { label: '🚀 GitHub Actions Deploy' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#24292e',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '12px 20px',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      minWidth: '220px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'GitHub Deploy',
+      icon: '🚀',
+      bgColor: '#24292e',
+      description: 'Trigger deploy workflow',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'railway',
-    data: { label: '🚂 Railway Platform' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#0B0D0E',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '12px 20px',
-      fontWeight: 'bold',
-      fontSize: '14px',
-      minWidth: '180px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Railway Platform',
+      icon: '🚂',
+      bgColor: '#0B0D0E',
+      description: 'Deploy to Railway',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'postgres',
-    data: { label: '🐘 PostgreSQL' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#336791',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '140px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'PostgreSQL',
+      icon: '🐘',
+      bgColor: '#336791',
+      description: 'Managed database',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'api',
-    type: 'output',
-    data: { label: '🔌 API Gateway' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#48c774',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '160px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'API Gateway',
+      icon: '🔌',
+      bgColor: '#48c774',
+      description: 'NestJS backend live',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'frontend',
-    type: 'output',
-    data: { label: '🌐 Frontend Website' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#48c774',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '180px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Frontend',
+      icon: '🌐',
+      bgColor: '#48c774',
+      description: 'React website live',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
   {
     id: 'storybook',
-    type: 'output',
-    data: { label: '📚 Storybook Docs' },
-    position: { x: 0, y: 0 },
-    style: {
-      background: '#48c774',
-      color: 'white',
-      border: '2px solid #111',
-      borderRadius: '8px',
-      padding: '10px 16px',
-      fontWeight: 'bold',
-      fontSize: '13px',
-      minWidth: '180px',
-      textAlign: 'center',
-      cursor: 'pointer',
+    type: 'pipeline',
+    data: {
+      label: 'Storybook',
+      icon: '📚',
+      bgColor: '#48c774',
+      description: 'Component docs live',
     },
+    position: { x: 0, y: 0 },
     ...nodeDefaults,
   },
 ];
@@ -665,93 +594,104 @@ const initialEdges: Edge[] = [
     id: 'commit-githubCI',
     source: 'commit',
     target: 'githubCI',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#00d1b2', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
   },
   // CI Workflow → Install Dependencies
   {
     id: 'githubCI-install',
     source: 'githubCI',
     target: 'install',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#00d1b2', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
   },
   // Install → Prisma Generate & Lint (parallel)
   {
     id: 'install-prisma',
     source: 'install',
     target: 'prisma',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#8b5cf6', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#8b5cf6' },
   },
   {
     id: 'install-lint',
     source: 'install',
     target: 'lint',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#8b5cf6', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#8b5cf6' },
   },
   // Prisma → All Builds (parallel)
   {
     id: 'prisma-buildApi',
     source: 'prisma',
     target: 'buildApi',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'prisma-buildFrontend',
     source: 'prisma',
     target: 'buildFrontend',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'prisma-buildStorybook',
     source: 'prisma',
     target: 'buildStorybook',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   // All CI stages → CI Check
   {
     id: 'lint-ciCheck',
     source: 'lint',
     target: 'ciCheck',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#8b5cf6', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#8b5cf6' },
   },
   {
     id: 'buildApi-ciCheck',
     source: 'buildApi',
     target: 'ciCheck',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'buildFrontend-ciCheck',
     source: 'buildFrontend',
     target: 'ciCheck',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'buildStorybook-ciCheck',
     source: 'buildStorybook',
     target: 'ciCheck',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#ff0055', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   // CI Check → Failed (No)
   {
@@ -759,9 +699,10 @@ const initialEdges: Edge[] = [
     source: 'ciCheck',
     sourceHandle: 'no',
     target: 'ciFailed',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#dc2626', strokeWidth: 2 },
+    style: { stroke: '#dc2626', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#dc2626' },
     label: 'No',
     labelStyle: { fill: '#dc2626', fontWeight: 'bold' },
   },
@@ -771,9 +712,10 @@ const initialEdges: Edge[] = [
     source: 'ciCheck',
     sourceHandle: 'yes-bottom',
     target: 'githubDeploy',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#48c774', strokeWidth: 2 },
+    style: { stroke: '#48c774', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#48c774' },
     label: 'Yes',
     labelStyle: { fill: '#48c774', fontWeight: 'bold' },
   },
@@ -782,51 +724,57 @@ const initialEdges: Edge[] = [
     id: 'githubDeploy-railway',
     source: 'githubDeploy',
     target: 'railway',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#00d1b2', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#00d1b2' },
   },
   // Railway → Services
   {
     id: 'railway-postgres',
     source: 'railway',
     target: 'postgres',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#336791', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#336791' },
   },
   {
     id: 'railway-api',
     source: 'railway',
     target: 'api',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#48c774', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#48c774' },
   },
   {
     id: 'railway-frontend',
     source: 'railway',
     target: 'frontend',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#48c774', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#48c774' },
   },
   {
     id: 'railway-storybook',
     source: 'railway',
     target: 'storybook',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
-    style: { stroke: '#111', strokeWidth: 2 },
+    style: { stroke: '#48c774', strokeWidth: 3 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#48c774' },
   },
   // PostgreSQL → API (database connection)
   {
     id: 'postgres-api',
     source: 'postgres',
     target: 'api',
-    type: 'smoothstep',
+    type: 'step',
     animated: true,
     style: { stroke: '#336791', strokeWidth: 2, strokeDasharray: '5,5' },
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#336791' },
   },
 ];
 
@@ -928,7 +876,7 @@ export function CICDPipeline() {
           </div>
         )}
       </Dialog>
-      <div className="w-full h-[800px] border-2 border-gray-900 rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="w-full h-[800px] border-2 border-gray-900 rounded-xl overflow-hidden shadow-xl">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -937,7 +885,8 @@ export function CICDPipeline() {
           onEdgesChange={onEdgesChange}
           onNodeClick={onNodeClick}
           fitView
-          fitViewOptions={{ padding: 0.1, maxZoom: 1 }}
+          fitViewOptions={{ padding: 0.15, duration: 300 }}
+          className="bg-gradient-to-br from-gray-50 to-gray-100"
           attributionPosition="bottom-right"
           proOptions={{ hideAttribution: true }}
           nodesDraggable={true}
@@ -950,8 +899,8 @@ export function CICDPipeline() {
           minZoom={0.3}
           maxZoom={2}
         >
-          <Background variant={BackgroundVariant.Dots} gap={16} size={1} />
-          <Controls showInteractive={false} />
+          <Background color="#00d1b2" gap={16} />
+          <Controls className="border-2 border-gray-900 rounded-lg overflow-hidden" />
         </ReactFlow>
       </div>
     </>

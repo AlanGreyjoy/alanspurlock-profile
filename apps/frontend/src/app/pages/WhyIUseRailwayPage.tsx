@@ -1,5 +1,5 @@
 import { Container } from '@alanspurlock-profile/spurlock-ui';
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -13,6 +13,7 @@ import {
   MarkerType,
   Position,
   Handle,
+  useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import dagre from 'dagre';
@@ -176,12 +177,12 @@ const initialDeploymentEdges: Edge[] = [
   },
 ];
 
-// Railway ecosystem nodes (manual circular layout around center)
+// Railway ecosystem nodes (manual circular layout around center with more spacing)
 const initialEcosystemNodes: Node[] = [
   {
     id: 'center',
     type: 'feature',
-    position: { x: 300, y: 200 },
+    position: { x: 400, y: 300 },
     data: {
       label: 'Railway',
       description: 'The Developer Platform',
@@ -201,7 +202,7 @@ const initialEcosystemNodes: Node[] = [
   {
     id: 'redis',
     type: 'feature',
-    position: { x: 500, y: 50 },
+    position: { x: 700, y: 50 },
     data: {
       label: 'Redis',
       description: 'In-memory caching made easy',
@@ -211,7 +212,7 @@ const initialEcosystemNodes: Node[] = [
   {
     id: 'docker',
     type: 'feature',
-    position: { x: 100, y: 350 },
+    position: { x: 100, y: 550 },
     data: {
       label: 'Docker Support',
       description: 'Native Dockerfile support',
@@ -221,7 +222,7 @@ const initialEcosystemNodes: Node[] = [
   {
     id: 'monitoring',
     type: 'feature',
-    position: { x: 500, y: 350 },
+    position: { x: 700, y: 550 },
     data: {
       label: 'Monitoring',
       description: 'Built-in metrics & logs',
@@ -231,7 +232,7 @@ const initialEcosystemNodes: Node[] = [
   {
     id: 'env',
     type: 'feature',
-    position: { x: 50, y: 200 },
+    position: { x: 0, y: 300 },
     data: {
       label: 'Environments',
       description: 'Multiple environments per project',
@@ -241,7 +242,7 @@ const initialEcosystemNodes: Node[] = [
   {
     id: 'scaling',
     type: 'feature',
-    position: { x: 550, y: 200 },
+    position: { x: 800, y: 300 },
     data: {
       label: 'Auto Scaling',
       description: 'Scale up/down automatically',
@@ -255,54 +256,48 @@ const initialEcosystemEdges: Edge[] = [
     id: 'center-postgres',
     source: 'center',
     target: 'postgres',
-    type: 'smoothstep',
-    animated: true,
-    style: { stroke: '#ff0055', strokeWidth: 3 },
+    type: 'default',
+    style: { stroke: '#ff0055', strokeWidth: 2 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-redis',
     source: 'center',
     target: 'redis',
-    type: 'smoothstep',
-    animated: true,
-    style: { stroke: '#ff0055', strokeWidth: 3 },
+    type: 'default',
+    style: { stroke: '#ff0055', strokeWidth: 2 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-docker',
     source: 'center',
     target: 'docker',
-    type: 'smoothstep',
-    animated: true,
-    style: { stroke: '#ff0055', strokeWidth: 3 },
+    type: 'default',
+    style: { stroke: '#ff0055', strokeWidth: 2 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-monitoring',
     source: 'center',
     target: 'monitoring',
-    type: 'smoothstep',
-    animated: true,
-    style: { stroke: '#ff0055', strokeWidth: 3 },
+    type: 'default',
+    style: { stroke: '#ff0055', strokeWidth: 2 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-env',
     source: 'center',
     target: 'env',
-    type: 'smoothstep',
-    animated: true,
-    style: { stroke: '#ff0055', strokeWidth: 3 },
+    type: 'default',
+    style: { stroke: '#ff0055', strokeWidth: 2 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
   {
     id: 'center-scaling',
     source: 'center',
     target: 'scaling',
-    type: 'smoothstep',
-    animated: true,
-    style: { stroke: '#ff0055', strokeWidth: 3 },
+    type: 'default',
+    style: { stroke: '#ff0055', strokeWidth: 2 },
     markerEnd: { type: MarkerType.ArrowClosed, color: '#ff0055' },
   },
 ];
@@ -332,6 +327,14 @@ export function WhyIUseRailwayPage() {
   const [ecosystemEdgesState, , onEcosystemEdgesChange] = useEdgesState(
     initialEcosystemEdges
   );
+
+  useEffect(() => {
+    // Small delay to ensure nodes are rendered before fitting view
+    const timer = setTimeout(() => {
+      // Fit view will be handled by fitView prop on ReactFlow
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [activeGraph]);
 
   return (
     <div className="w-full pt-12 md:pt-24 pb-20">
@@ -512,6 +515,7 @@ export function WhyIUseRailwayPage() {
                 onEdgesChange={onDeploymentEdgesChange}
                 nodeTypes={nodeTypes}
                 fitView
+                fitViewOptions={{ padding: 0.2, duration: 300 }}
                 className="bg-gradient-to-br from-gray-50 to-gray-100"
               >
                 <Background color="#00d1b2" gap={16} />
@@ -525,6 +529,7 @@ export function WhyIUseRailwayPage() {
                 onEdgesChange={onEcosystemEdgesChange}
                 nodeTypes={nodeTypes}
                 fitView
+                fitViewOptions={{ padding: 0.2, duration: 300 }}
                 className="bg-gradient-to-br from-gray-50 to-gray-100"
               >
                 <Background color="#ff0055" gap={16} />
