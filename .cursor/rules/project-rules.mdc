@@ -57,3 +57,4 @@ It is heavily vibe coded. Why? Because I know what I am doing.
 - DO NOT create .md files unless explicitly requested
 - DO NOT run apps or servers. Chances are, we already have a task running them. You just fuck everything up with you do that.
 - If you are stuck, search the internet for a solution.
+- When using terminal commands, use 'working_directory'. It's a bug with cursor.

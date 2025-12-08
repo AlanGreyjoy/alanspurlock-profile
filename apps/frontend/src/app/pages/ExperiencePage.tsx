@@ -11,6 +11,8 @@ import {
   Pills,
   Select,
   Button,
+  List,
+  ListItem,
 } from '@alanspurlock-profile/spurlock-ui';
 import {
   Briefcase,
@@ -357,15 +359,22 @@ export function ExperiencePage() {
                   )}
 
                   {exp.highlights.length > 0 && (
-                    <ul className="space-y-3 mb-6">
+                    <List
+                      type="unordered"
+                      withPadding={false}
+                      spacing="md"
+                      size="sm"
+                      className="mb-6"
+                    >
                       {exp.highlights.map((highlight, i) => (
-                        <li
+                        <ListItem
                           key={i}
-                          className="flex items-start gap-3 group/item"
+                          icon={
+                            <span className="text-[var(--color-primary)] text-lg font-bold">
+                              •
+                            </span>
+                          }
                         >
-                          <span className="text-[var(--color-primary)] mt-1.5 text-lg font-bold group-hover/item:scale-125 transition-transform">
-                            •
-                          </span>
                           <Text
                             size="sm"
                             color="muted"
@@ -373,9 +382,9 @@ export function ExperiencePage() {
                           >
                             {highlight}
                           </Text>
-                        </li>
+                        </ListItem>
                       ))}
-                    </ul>
+                    </List>
                   )}
 
                   {exp.technologies && exp.technologies.length > 0 && (

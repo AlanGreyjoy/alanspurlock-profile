@@ -35,10 +35,10 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
       return (
         <li
           ref={ref}
-          className={`flex items-start gap-2 ${className}`}
+          className={`flex items-center gap-2 ${className}`}
           {...props}
         >
-          <span className="mt-0.5 flex-shrink-0">{icon}</span>
+          <span className="flex-shrink-0 leading-none">{icon}</span>
           <span className="flex-1">{children}</span>
         </li>
       );

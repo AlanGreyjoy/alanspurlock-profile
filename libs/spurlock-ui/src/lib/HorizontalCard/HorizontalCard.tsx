@@ -123,3 +123,4 @@ HorizontalCard.displayName = 'HorizontalCard';
 
 export default HorizontalCard;
 
+
