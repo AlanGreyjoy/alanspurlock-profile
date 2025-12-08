@@ -16,13 +16,24 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
 
   // Enable CORS for frontend communication
+  const allowedOrigins = [
+    'http://localhost:4200', // Frontend dev server
+    'http://localhost:5173', // Vite dev server
+  ];
+
+  // Add production URLs from environment variables
+  if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+  }
+  if (process.env.STORYBOOK_URL) {
+    allowedOrigins.push(process.env.STORYBOOK_URL);
+  }
+
   app.enableCors({
-    origin: [
-      'http://localhost:4200', // Frontend dev server
-      'http://localhost:5173', // Vite dev server
-      process.env.FRONTEND_URL || 'http://localhost:4200',
-    ],
+    origin: allowedOrigins,
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
   const globalPrefix = 'api';

@@ -8,6 +8,7 @@ import { ContactPage } from './pages/ContactPage';
 import { HotasHelperPage } from './pages/HotasHelperPage';
 import { SpurlockUIPage } from './pages/SpurlockUIPage';
 import { VibeLikeAlanPage } from './pages/VibeLikeAlanPage';
+import { WhyIUseRailwayPage } from './pages/WhyIUseRailwayPage';
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: 'vibe-like-alan',
         element: <VibeLikeAlanPage />,
+      },
+      {
+        path: 'why-i-use-railway',
+        element: <WhyIUseRailwayPage />,
       },
     ],
   },

@@ -6,3 +6,4 @@ export { ContactPage } from './ContactPage';
 export { HotasHelperPage } from './HotasHelperPage';
 export { SpurlockUIPage } from './SpurlockUIPage';
 export { VibeLikeAlanPage } from './VibeLikeAlanPage';
+export { WhyIUseRailwayPage } from './WhyIUseRailwayPage';

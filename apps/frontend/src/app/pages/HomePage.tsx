@@ -171,6 +171,15 @@ export function HomePage() {
                   <p className="text-gray-600 text-sm mb-4">
                     Click on any node to learn more about that stage
                   </p>
+                  <div className="mb-4">
+                    <Link
+                      to="/why-i-use-railway"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#00d1b2] text-white font-bold rounded-lg hover:bg-[#00b89f] transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+                    >
+                      <span className="text-xl">🚂</span>
+                      Why I Use Railway
+                    </Link>
+                  </div>
                   <CICDPipeline />
                 </div>
               </div>
